@@ -1,0 +1,165 @@
+// app global css in SCSS form
+// ==========================
+// Variables
+// ==========================
+
+// Colores
+$primaryColor: #ffffff;
+$colorForm: #474443;
+
+// Background
+$background : #F9FAFB;
+$leftColorBackground: #083cc2;
+$rightColorBackground: #00cdfa;
+
+//Button
+$buttonBackground: $primaryColor;
+$buttonHoverBackground: #d3d4d5;
+
+// Espaciado y bordes
+$padding: 10px;
+$margin: 10px;
+$borderRadius: 5px;
+
+// Tipografía
+$fontFamily: Helvetica, Arial, sans-serif;
+$fontColorPrimary: #212529;
+$fontSizeBase: 16px;
+$fontSizeSmall: 0.875rem;
+$fontSizeLarge: 1.25rem;
+
+// ==========================
+// Mixins
+// ==========================
+
+@mixin radius($radius: $borderRadius) {
+  border-radius: $radius;
+}
+
+@mixin font-size($size: $fontSizeBase) {
+  font-size: $size;
+}
+
+@mixin gradient-background($color1, $color2) {
+  background: linear-gradient(90deg, $color1 27%, $color2 100%);
+}
+
+// ==========================
+// Placeholders
+// ==========================
+
+%inputs {
+  @include radius();
+  color: $fontColorPrimary;
+  border: 1px solid #ced4da;
+  padding: 7px;
+  font-family: $fontFamily;
+  @include font-size($fontSizeBase);
+}
+
+// ==========================
+// Base Styles
+// ==========================
+
+
+// Typography
+* {
+  font-family: $fontFamily;
+}
+
+// Global
+body {
+  @include gradient-background($leftColorBackground, $rightColorBackground);
+  font-size: $fontSizeBase;
+
+  img {
+    padding: 8px;
+  }
+}
+
+// ==========================
+// Components
+// ==========================
+
+form {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+
+  //H4
+  h4 {
+    margin: 15px 0;
+  }
+  // Card Component
+  .card {
+    background-color: $primaryColor;
+    @include radius();
+    padding: $padding;
+    margin: $margin;
+    color: $colorForm;
+
+    .card-title {
+      color: inherit; // Hereda el color de .card
+      @include font-size($fontSizeLarge);
+      font-weight: bold;
+    }
+  }
+}
+
+// Field Component
+.field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: $padding 0;
+  margin: $margin 0;
+
+  label {
+    padding-bottom: $padding;
+    color: $colorForm;
+    @include font-size($fontSizeSmall);
+  }
+
+  textarea,
+  input {
+    @extend %inputs; // Reutiliza el placeholder %inputs
+  }
+}
+
+.tabla {
+  background-color: $background;
+}
+
+.clickable:hover {
+  border: 0.3rem solid grey;
+}
+
+// Button Component
+button {
+  min-width: 100px;
+  padding: $padding;
+  background-color: $buttonBackground;
+  color: black;
+  border: none;
+  @include radius(30px);
+  @include font-size($fontSizeBase);
+
+  &:hover {
+    background-color: $buttonHoverBackground;
+    cursor: pointer;
+  }
+}
+.error {
+  color: #dc3545;
+}
+
+//=============================
+// Splide
+//=============================
+.splide {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.splide__arrow svg{
+  fill: #1976D2 !important;
+}

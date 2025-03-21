@@ -1,0 +1,48 @@
+{
+  "name": "sbs-clientes",
+  "version": "1.0.0",
+  "description": "portal clientes",
+  "productName": "sbs clientes",
+  "author": "Antonio <antoniomas33@hotmail.com>",
+  "private": true,
+  "scripts": {
+    "lint": "eslint --ext .js,.vue ./",
+    "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev",
+    "build": "quasar build"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.16.4",
+    "@splidejs/splide": "^4.1.4",
+    "@splidejs/vue-splide": "^0.6.12",
+    "@tailwindcss/postcss": "^4.0.14",
+    "axios": "^1.2.1",
+    "chart.js": "^4.4.8",
+    "crypto-js": "^4.2.0",
+    "pinia": "^2.0.11",
+    "quasar": "^2.16.0",
+    "swiper": "^11.2.5",
+    "vue": "^3.4.18",
+    "vue-i18n": "^9.0.0",
+    "vue-recaptcha-v3": "^2.0.1",
+    "vue-router": "^4.0.12"
+  },
+  "devDependencies": {
+    "@intlify/vite-plugin-vue-i18n": "^3.3.1",
+    "@quasar/app-vite": "^1.9.0",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-vue": "^9.0.0",
+    "postcss": "^8.5.3",
+    "prettier": "^2.5.1",
+    "tailwindcss": "^4.0.14",
+    "vite-plugin-checker": "^0.8.0"
+  },
+  "engines": {
+    "node": "^20 || ^18 || ^16",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}
