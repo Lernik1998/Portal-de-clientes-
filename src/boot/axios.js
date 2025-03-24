@@ -8,7 +8,7 @@ import axios from 'axios'
 // "export default () => {}" function below (which runs individually
 // for each client)
 
-//http://localhost:8080
+// http://localhost:8080
 // https://test.mollnet.es/conector-sbs-clientes-portal
 // process.env.API_URL
 const api = axios.create({ baseURL: 'https://test.mollnet.es/conector-sbs-clientes-portal' })

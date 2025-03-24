@@ -31,9 +31,6 @@
     </q-layout>
 </template>
 
-<script setup>
-
-</script>
 <style scoped lang="scss">
 .global {
   background-color: #F9FAFB;

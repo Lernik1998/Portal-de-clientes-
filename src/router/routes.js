@@ -7,7 +7,8 @@ const routes = [
       { path: "/login", component: () => import("src/pages/LoginPage.vue")},
       { path: "/equipos/:token", component: ()=> import("src/pages/EquipoSeleccionado.vue")},
       { path: "equipos/contadores/:token", component: ()=> import("src/pages/ContadoresPage.vue")},
-      {path: "/prueba", component: ()=>import("src/pages/EquiposPage2.vue")}
+      {path: "/prueba", component: ()=>import("src/pages/EquiposPage2.vue")},
+      {path: "/contacto", component: ()=>import("src/pages/ContactoPage.vue")} // Zona contacto
     ]
   },
   {

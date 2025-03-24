@@ -7,16 +7,17 @@
             <div class="user_options-unregistered">
               <h2 class="user_unregistered-title">No estás con nosotros?</h2>
               <p class="user_unregistered-text">La mejor solución disponible para gestionar los clientes de tu empresa.</p>
-              <button class="user_unregistered-signup" id="signup-button" onclick="submitForm('enviar')" >Contáctanos</button>
+              <button class="user_unregistered-signup" id="signup-button" @click="submitForm('contacto')" >Contáctanos</button>
             </div>
-      
-            <div class="user_options-registered">
+
+            <!-- No usado, falta de código JS -->
+            <!-- <div class="user_options-registered">
               <h2 class="user_registered-title">¿ Ya tienes una cuenta ?</h2>
               <p class="user_registered-text">Disfruta de tus beneficios en nuestra App accediendo.</p>
               <button class="user_registered-login" id="login-button" onclick="submitForm('login')" >Login</button>
-            </div>
+            </div> -->
           </div>
-      
+
           <div class="user_options-forms" id="user_options-forms">
             <div style="padding: 5%; width: 100%;" id="login-form">
                 <!-- AQUI EMPIEZA EL LOGIN PARA INICIAR SESION-------------------------------------------------------------->
@@ -41,7 +42,7 @@
                             (val) => val.toString().length <= 100 || 'El texto es demasiado largo'
                         ]"
                       />
-                 
+
                 </fieldset>
                 <div style="display: flex; justify-content: center;">
                   <q-btn
@@ -57,7 +58,7 @@
           </div>
         </div>
     </section>
-   
+
     <!-- Dialogo de confirmación -->
     <q-dialog v-model="abrirDialogo" persistent>
       <q-card style="padding: 10px;">
@@ -77,8 +78,8 @@
                   (val) => val.toString().length <= 6 || 'El número no es valido'
                 ]"
               />
-            
-            
+
+
           </q-card-section>
           <q-card-actions>
             <q-btn label="Validar" type="submit" color="primary" class="forms_buttons-action"/>
@@ -201,7 +202,14 @@ const login = async () => {
  $q.loading.hide();
 };
 
-onMounted(()=> {});
+// Redirección al contacto
+const submitForm = (type) => {
+  if(type === 'contacto') {
+    router.push('/contacto');
+  }
+};
+
+// onMounted(()=> {});
 </script>
 
 <style scoped>
@@ -222,7 +230,7 @@ onMounted(()=> {});
   min-width: 1024px;
   min-height: 576px;
   background-size: cover;
-  background-position: center; 
+  background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
@@ -230,14 +238,14 @@ onMounted(()=> {});
 
 /******************* */
 fieldset {
-    display: block; 
-    margin: 0; 
-    padding: 0; 
+    display: block;
+    margin: 0;
+    padding: 0;
     border: none;
     min-width: 0;
-    -webkit-appearance: none; 
-    -moz-appearance: none; 
-    appearance: none; 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
   }
 
 /* Si también deseas personalizar el legend dentro del fieldset */
@@ -283,7 +291,7 @@ input::placeholder {
 
 .user {
 	display: grid;
-	height: 100vh; 
+	height: 100vh;
 	width: 100%;
 }
 .contenedor-logo{
@@ -299,8 +307,8 @@ input::placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
-  justify-self: center;	
- 
+  justify-self: center;
+
 }
 .user_options-text {
   display: flex;
@@ -365,7 +373,7 @@ input::placeholder {
     border-radius: 3px;
     box-shadow: 2px 0 15px rgba(0, 0, 0, 0.25);
     overflow: hidden;
-    
+
   }
 .user_options-forms .user_forms-login {
   -webkit-transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;

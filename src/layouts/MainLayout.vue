@@ -1,5 +1,6 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <!-- <q-layout view="lHh Lpr lFf"> -->
+    <q-layout view="hHh lpR fFf">
     <q-header>
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer"/>
@@ -26,7 +27,7 @@
       </q-toolbar>
     </q-header>
     <!-- drawer con las pestañas para pantalla móvil-->
-    <q-drawer v-model="drawerOpen" show-if-above bordered @click="toggleLeftDrawer">
+    <q-drawer v-model="drawerOpen" behavior="mobile" show-if-above bordered @click="toggleLeftDrawer" >
       <q-list>
         <q-item-label header> Secciones </q-item-label>
         <q-item clickable v-ripple v-for="tab in tabs" :key="tab.name" :to="tab.to">
@@ -83,7 +84,8 @@
       <router-view />
     </q-page-container>
 
-    <q-footer class="q-pa-lg pie">
+    <!-- Footer -->
+    <q-footer reveal class="q-pa-lg pie" >
           <div class="capa1">
             <div class="caja-texto">
             <div id="soporte" class="subtitulo centrado"><b>soporte</b>@fernandomoll.com</div>
@@ -96,8 +98,6 @@
             <img src="../assets/grupo_fm.png" class="logo4">
           </div>
       </q-footer>
-
-
   </q-layout>
 </template>
 
@@ -203,6 +203,7 @@ onMounted(()=> {
   drawerOpen.value = false;
 });
 </script>
+
 <style scoped>
 .global {
   background-color: #F9FAFB;
@@ -248,6 +249,7 @@ onMounted(()=> {
   background-color: transparent;
   color: #000;
 }
+
 .capa1 {
   display: flex;
   flex-direction: row;
@@ -260,6 +262,8 @@ onMounted(()=> {
 }
 .centrado {
   align-content: center;
+  margin-left: 15px;
+  margin-top: 10px;
 }
 
 .caja-texto, .caja-imagen {

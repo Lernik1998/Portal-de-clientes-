@@ -6,7 +6,7 @@
     </div>
     <div id="tabla-avisos">
         <TablaAvisos :items="avisos" :totalItems="numAvisos" :posicion="paginacion"
-        @abrir="abrirDetalle" @filtrarEstado="filtrarEstado($event)" @paginar="paginarTabla($event)"/>
+        @abrir="abrirDetalle" @filtrarEstado="filtrarEstado($event)" @paginar="paginarTabla($event) "/>
     </div>
     <div id="lista-avisos">
         <q-list bordered separator>
@@ -22,12 +22,12 @@
                     <q-tooltip>Cerrar</q-tooltip>
                 </q-btn>
             </q-bar>
-              
-                <q-card-section class="scroll">                    
+
+                <q-card-section class="scroll">
                     <div class="text-h5">{{ parteSeleccionado.codigo }}</div>
                     <q-separator/>
                     <q-timeline align="left" dense>
-                        <q-timeline-entry 
+                        <q-timeline-entry
                         v-for="(etapa, index) in etapas"
                         :key="index"
                         :color="etapa.completado ? 'green' : 'grey'"
@@ -47,11 +47,11 @@
                         </q-timeline-entry>
                     </q-timeline>
                 </q-card-section>
-                
+
                 <q-card-section>
                     <q-separator/>
                 </q-card-section>
-           
+
         </q-card>
     </q-dialog>
     </q-page>
@@ -160,19 +160,19 @@ onUnmounted(() => {
 }
 .expansor {
   background-color: #f5f5f5;
-  padding: 10px; 
-  border-radius: 8px; 
+  padding: 10px;
+  border-radius: 8px;
 }
 .elemento-informe {
   margin-left: 20px;
 }
 .informe-titulo {
-  font-weight: bold; 
+  font-weight: bold;
   color: #333;
 }
 
 .informe-texto {
-  color: #666; 
+  color: #666;
 }
 
 .dialogo {
@@ -180,14 +180,14 @@ onUnmounted(() => {
     display: flex;
     flex-direction: column;
     .barra-titulo {
-        position: sticky; 
+        position: sticky;
         top: 0;
-        z-index: 1; 
+        z-index: 1;
         background: white;
     }
     .scroll {
         overflow-y: auto;
-        flex: 1; 
+        flex: 1;
     }
 }
 

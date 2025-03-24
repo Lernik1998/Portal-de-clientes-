@@ -9,7 +9,7 @@
         </div>
         <div class="cuerpo">
             <div class="tarjetas">
-                <q-card class="tarjeta clickable" @click="router.push('dashboard/equipos')">
+                <q-card class="tarjeta" @click="router.push('dashboard/equipos')">
                 <q-card-section>
                     <div class="contenido-tarjeta">
                         <span class="text-h4">{{ numEquipos }}</span>
@@ -17,7 +17,7 @@
                     </div>
                 </q-card-section>
                 </q-card>
-                <q-card class="tarjeta clickable" @click="router.push('dashboard/avisos')">
+                <q-card class="tarjeta" @click="router.push('dashboard/avisos')">
                     <q-card-section>
                         <div class="contenido-tarjeta">
                             <span class="text-h4">{{ numAvisos }}</span>
@@ -33,9 +33,9 @@
                         </div>
                     </q-card-section>
                 </q-card>
-                <q-card class="tarjeta clickable">
+                <q-card class="tarjeta">
                     <q-card-section>
-                        <div class="contenido-tarjeta" @click="abrirSolicitud = true">
+                        <div class="contenido-tarjeta pl-4" @click="abrirSolicitud = true">
                             <img src="../assets/servicio_nuevo.png">
                         </div>
                     </q-card-section>
@@ -71,7 +71,7 @@
                     </q-card-section>
                 </q-card>
             </div>
-            <div>
+            <div id="sliderEquipos">
               <EquiposSlider :equipos="equipos" :cargados="cargados" @paginar="paginar"/>
             </div>
         </div>
@@ -367,6 +367,24 @@ onMounted(()=>{
     margin-right: 1%;
     margin-bottom: 3%;
 }
+
+/* Animación tarjetas */
+.tarjeta {
+    transition: all 0.3s ease-in-out;
+}
+
+.tarjeta:hover {
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.2); /* Efecto Glass */
+
+    &:hover {
+        transform: scale(1.1);
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+        background: rgba(255, 255, 255, 2);
+    }
+}
+
 .grafico {
     max-width: 40vw;
 }
@@ -387,5 +405,11 @@ onMounted(()=>{
     .grafico {
         max-width: 90vh;
     }
+    #sliderEquipos {
+        width: 80%;
+        margin: 0 auto;
+        margin-top: 10px;
+    }
+
 }
 </style>

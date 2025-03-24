@@ -3,11 +3,18 @@
     no-data-label="No hay datos para mostrar." flat class="tabla">
         <template v-slot:top-right>
             <q-space />
-            <q-input dense debounce="300" color="primary" v-model="filtro">
+
+                <!-- Select de busqueda -->
+                <q-select name="Equipo"  v-model="filtro" :options="columnas" option-value="name" option-label="label" emit-value map-options >
+                  <template #default>Seleccione un filtro</template>
+                </q-select>
+
+            <!-- Buscador INPUT cambiado por el Select -->
+            <!-- <q-input dense debounce="300" color="primary" v-model="filtro">
             <template v-slot:append>
                 <q-icon name="search" />
             </template>
-            </q-input>
+            </q-input> -->
         </template>
         <template v-slot:top-left>
             <button class="boton-tabla azul" @click="actualizarFiltro(0)">Todos</button>
@@ -24,10 +31,12 @@
                 @update:model-value="paginar"/>
             </div>
         </template>
+
+        <!-- Tabla de avisos -->
         <template v-slot:body-cell-est="props">
             <q-td :props="props">
-                <button class="text-caption aviso-status" :class="claseEstatus(props.row)">{{ 
-                    props.row.estado == 'Nueva' ? 
+                <button class="text-caption aviso-status" :class="claseEstatus(props.row)">{{
+                    props.row.estado == 'Nueva' ?
                             props.row.asignado ? 'Técnico asignado' : 'Pendiente asignación' :
                                 props.row.estado == 'Visitado / sin terminar' ? 'En proceso' :
                                     props.row.estado == 'Supervisar' ? 'Cerrado' : props.row.estado
@@ -49,6 +58,8 @@
 
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
+import { api } from 'src/boot/axios';
+
 const filtro = ref("");
 const props = defineProps({
     items: {
@@ -112,7 +123,7 @@ const columnas = [
         label: "Técnico asignado",
         field: "tecnico",
         align: "center"
-    }, 
+    },
     {
         name: "ver"
     }
@@ -161,6 +172,23 @@ watch(() => props.posicion, (newPosicion) => {
 });
 
 onMounted(()=>console.log(props.posicion));
+
+const nombres = ref([]);
+
+// Obtengo nombres del endpoint /equipos.php (Sin parametros)
+const obtenerNombres = async () => {
+    try {
+        const response = await api.get("/equipos.php", { withCredentials: true });
+        console.log("Nombres obtenidos: ", response.data);
+        if (response.data.success) {
+            nombres.value = response.data.message;
+        }
+    } catch (error) {
+        console.log("Error al obtener nombres:", error);
+    }
+};
+
+obtenerNombres();
 </script>
 
 <style scoped lang="scss">
@@ -180,7 +208,7 @@ $estados: (
 }
 
 .aviso-status {
-    border-radius: 8px; 
+    border-radius: 8px;
     border:none;
     width:60%;
     min-width: 150px;
@@ -189,7 +217,7 @@ $estados: (
 }
 
 .boton-tabla {
-    border-radius: 8px; 
+    border-radius: 8px;
     border:none;
     margin: 5px;
     color: #000;
@@ -211,6 +239,5 @@ $estados: (
 .gris {
     background-color: #D3D3D3;
 }
-
 
 </style>

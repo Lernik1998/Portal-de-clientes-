@@ -15,6 +15,7 @@ import { useAuthStore } from 'src/stores/auth';
 export default route(function (/* { store, ssrContext } */) {
   const authStore = useAuthStore();
 
+  // Se determina el tipo de historia que usará el router, basado en la variable de entorno VUE_ROUTER_MODE
   const createHistory = process.env.SERVER
     ? createMemoryHistory
     : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory)

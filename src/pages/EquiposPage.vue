@@ -1,20 +1,40 @@
 <template>
-    <q-page class="q-pa-md">
-        <div class="cabecera">
-            <span class="text-h6">Lista de Servicios</span>
-            <span class="text-subtitle2">Consulte sus servicios contratados</span>
-        </div>
-        <div class="tabla-tarjetas">
-            <TarjetaEquipo v-for="equipo in equipos" :key="equipo.tkn" :equipo="equipo"/>
-        </div>
-    </q-page>
+  <q-page class="q-pa-md">
+    <div class="cabecera">
+      <span class="text-h6">Lista de Servicios</span>
+      <span class="text-subtitle2">Consulte sus servicios contratados</span>
+      <div class="row justify-end">
+        <q-input
+          dense
+          debounce="300"
+          color="primary"
+          v-model="equipoBuscado"
+          @change="actualizarFiltro"
+          class="position-relative"
+        >
+
+        <!--  @input="actualizarFiltro" -->
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </div>
+    </div>
+    <div class="tabla-tarjetas">
+      <TarjetaEquipo
+        v-for="equipo in equipos"
+        :key="equipo.tkn"
+        :equipo="equipo"
+      />
+    </div>
+  </q-page>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
-import { api } from 'src/boot/axios';
+import { ref, onMounted, onUnmounted } from "vue";
+import { api } from "src/boot/axios";
 import { useQuasar } from "quasar";
-import TarjetaEquipo from 'src/components/TarjetaEquipo.vue';
+import TarjetaEquipo from "src/components/TarjetaEquipo.vue";
 
 const $q = useQuasar();
 const equipos = ref([]);
@@ -22,52 +42,70 @@ const numEquipos = ref(0);
 const cargados = ref(20); // Carga 20 equipos por defecto
 const paginacion = ref(1); // Paginación desde la primera página
 const cargando = ref(false);
+const equiposOriginal = ref([]);
+
+const equipoBuscado = ref("");
+
+const actualizarFiltro = (valor) => {
+  console.log('Filtrado con ' + valor);
+// Buscar dentro de equipos el nombre del equipo introducido
+  equipos.value = equiposOriginal.value.filter(equipo => equipo.nombre.toLowerCase().includes(valor.toLowerCase()));
+};
 
 const cargarEquipos = async () => {
-    if (cargando.value) return;
-    $q.loading.show();
-    cargando.value = true;
-    try{
-        const response = await api.get("/equipos.php?pag="+paginacion.value, {withCredentials:true});
-        if(response.data.success){
-            numEquipos.value = response.data.message.total;
-            equipos.value = [...equipos.value, ...response.data.message.equipos];
-        }else{
-        }
-    }catch(error){
-        console.log("Error:", error);
+  if (cargando.value) return;
+  $q.loading.show();
+  cargando.value = true;
+  try {
+    const response = await api.get("/equipos.php?pag=" + paginacion.value, {
+      withCredentials: true,
+    });
+    if (response.data.success) {
+      numEquipos.value = response.data.message.total;
+      equipos.value = [...equipos.value, ...response.data.message.equipos];
+      // Actualizo el array del filtro
+      equiposOriginal.value = [...equiposOriginal.value, ...response.data.message.equipos];
+      console.log(equipos.value);
+    } else {
     }
-    cargando.value = false;
-    $q.loading.hide();
+  } catch (error) {
+    console.log("Error:", error);
+  }
+  cargando.value = false;
+  $q.loading.hide();
 };
 
 const paginar = () => {
-    const scrollPosition = window.scrollY + window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight;
+  const scrollPosition = window.scrollY + window.innerHeight;
+  const documentHeight = document.documentElement.scrollHeight;
 
-    if (!cargando.value && scrollPosition >= documentHeight - 10 && cargados.value <= numEquipos.value) {
-        paginacion.value += 1;
-        cargados.value += 20;
-        cargarEquipos();
-    }
-};
-onMounted(()=>{
-    window.addEventListener('scroll', paginar);
+  if (
+    !cargando.value &&
+    scrollPosition >= documentHeight - 10 &&
+    cargados.value <= numEquipos.value
+  ) {
+    paginacion.value += 1;
+    cargados.value += 20;
     cargarEquipos();
+  }
+};
+onMounted(() => {
+  window.addEventListener("scroll", paginar);
+  cargarEquipos();
 });
 onUnmounted(() => {
-  window.removeEventListener('scroll', paginar);
+  window.removeEventListener("scroll", paginar);
 });
 </script>
 
 <style scoped lang="scss">
 .cabecera {
-    margin: 2%;
-    display: flex;
-    flex-direction: column;
-    span {
-        color: grey;
-    }
+  margin: 2%;
+  display: flex;
+  flex-direction: column;
+  span {
+    color: grey;
+  }
 }
 .tabla-tarjetas {
   display: grid;
