@@ -1,6 +1,6 @@
 <template>
   <Splide ref="splideRef" :options="splideOptions">
-    <SplideSlide v-for="equipo in equipos" :key="equipo.id">
+    <SplideSlide v-for="equipo in equipos" :key="equipo.id" class="pl-40">
       <TarjetaEquipo :equipo="equipo" :mostrar-contrato="false"/>
     </SplideSlide>
   </Splide>

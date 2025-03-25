@@ -4,15 +4,17 @@
         <span class="text-h6">Sus avisos</span>
         <span class="text-subtitle2">Visualice sus partes de trabajo generados</span>
     </div>
+
     <div id="tabla-avisos">
-        <TablaAvisos :items="avisos" :totalItems="numAvisos" :posicion="paginacion"
+       <TablaAvisos :items="avisos" :totalItems="numAvisos" :posicion="paginacion"
         @abrir="abrirDetalle" @filtrarEstado="filtrarEstado($event)" @paginar="paginarTabla($event) "/>
     </div>
-    <div id="lista-avisos">
-        <q-list bordered separator>
+
+    <!-- <div id="lista-avisos">
+         <q-list bordered separator>
             <TarjetaAviso v-for="aviso in avisos" :key="aviso.id" :aviso="aviso" @click="abrirDetalle(aviso)"/>
         </q-list>
-    </div>
+    </div> -->
     <q-dialog v-model="abrirParte" class="dialogo">
         <q-card>
             <q-bar class="barra-titulo">
@@ -101,6 +103,7 @@ const cargarAvisos = async () => {
     cargando.value = true;
     try {
         const response = await api.get("/avisos.php?pag="+paginacion.value+"&estado="+estadoAvisos.value, { withCredentials: true });
+
         console.log("Avisos: ", response.data);
         if (response.data.success) {
             numAvisos.value = response.data.message.total;
@@ -108,6 +111,7 @@ const cargarAvisos = async () => {
             avisos.value = avisos.value.sort((a, b) => {
                 return new Date(b.creado_js) - new Date(a.creado_js);
             });
+            console.log("Avisos cargados:", avisos.value);
         }
     } catch (error) {
         console.log("Error:", error);
@@ -195,12 +199,21 @@ onUnmounted(() => {
     display: none;
 }
 
-@media (max-width: 820px) {
-    #lista-avisos {
-        display: contents;
-    }
-    #tabla-avisos {
-        display: none;
-    }
-}
+// @media (max-width: 820px) {
+//     #lista-avisos {
+//         display: contents;
+//     }
+//     #tabla-avisos {
+//         display: none;
+//     }
+// }
+
+// @media (max-width: 1280px) {
+//     #lista-avisos {
+//         display: contents;
+//     }
+//     #tabla-avisos {
+//         display: none;
+//     }
+// }
 </style>

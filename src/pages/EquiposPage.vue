@@ -9,11 +9,9 @@
           debounce="300"
           color="primary"
           v-model="equipoBuscado"
-          @change="actualizarFiltro"
+          @update:model-value="actualizarFiltro"
           class="position-relative"
         >
-
-        <!--  @input="actualizarFiltro" -->
           <template v-slot:append>
             <q-icon name="search" />
           </template>
@@ -22,7 +20,7 @@
     </div>
     <div class="tabla-tarjetas">
       <TarjetaEquipo
-        v-for="equipo in equipos"
+        v-for="equipo in equiposFiltrados"
         :key="equipo.tkn"
         :equipo="equipo"
       />
@@ -42,29 +40,36 @@ const numEquipos = ref(0);
 const cargados = ref(20); // Carga 20 equipos por defecto
 const paginacion = ref(1); // Paginación desde la primera página
 const cargando = ref(false);
-const equiposOriginal = ref([]);
 
 const equipoBuscado = ref("");
+const equiposFiltrados = ref([]);
 
-const actualizarFiltro = (valor) => {
-  console.log('Filtrado con ' + valor);
-// Buscar dentro de equipos el nombre del equipo introducido
-  equipos.value = equiposOriginal.value.filter(equipo => equipo.nombre.toLowerCase().includes(valor.toLowerCase()));
+const actualizarFiltro = () => {
+  if (!equipoBuscado.value.trim()) {
+    equiposFiltrados.value = [...equipos.value]; // Si no hay filtro, mostramos todos
+  } else {
+    // Buscar dentro de equipos el nombre del equipo introducido
+    equiposFiltrados.value = equipos.value.filter(equipo =>
+      equipo.nombre.toLowerCase().includes(equipoBuscado.value.toLowerCase())
+    );
+  }
 };
+
 
 const cargarEquipos = async () => {
   if (cargando.value) return;
   $q.loading.show();
   cargando.value = true;
   try {
-    const response = await api.get("/equipos.php?pag=" + paginacion.value, {
+    const response = await api.get("/equipos.php?pag=" + paginacion.value + "&nombre=" + equipoBuscado.value, {
       withCredentials: true,
     });
+
     if (response.data.success) {
       numEquipos.value = response.data.message.total;
       equipos.value = [...equipos.value, ...response.data.message.equipos];
       // Actualizo el array del filtro
-      equiposOriginal.value = [...equiposOriginal.value, ...response.data.message.equipos];
+      equiposFiltrados.value = [...equiposFiltrados.value, ...response.data.message.equipos];
       console.log(equipos.value);
     } else {
     }

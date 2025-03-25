@@ -5,6 +5,10 @@
                 <span class="text-subtitle1 text-white">{{ fechaFormateada }}</span>
                 <span class="text-h4 text-weight-bold text-capitalize text-white">¡Hola, {{ authStore.getUser().usuario}}!</span>
                 <span class="text-subtitle2 text-white">{{ authStore.getUser().nombre }}</span>
+
+                <div id="sbs-logo">
+              <img src="../assets/powered.png" class="logo2">
+            </div>
             </div>
         </div>
         <div class="cuerpo">
@@ -71,7 +75,7 @@
                     </q-card-section>
                 </q-card>
             </div>
-            <div id="sliderEquipos">
+            <div id="sliderEquipos" class="mr-20">
               <EquiposSlider :equipos="equipos" :cargados="cargados" @paginar="paginar"/>
             </div>
         </div>
@@ -349,6 +353,22 @@ onMounted(()=>{
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
+
+/* Logo */
+#sbs-logo {
+  position: absolute;
+  /* width: 100px; */
+  right: 50px;
+}
+
+.logo2 {
+  max-width: 170px;
+  height: auto;
+  padding: 10px;
+  align-self: flex-end;
+  object-fit: contain;
+}
+
 .cuerpo {
     z-index: 20px;
     margin-top: -40px;
@@ -410,6 +430,11 @@ onMounted(()=>{
         margin: 0 auto;
         margin-top: 10px;
     }
+}
 
+@media (max-width: 1800px) {
+    #sliderEquipos {
+        margin-left: 100px;
+    }
 }
 </style>

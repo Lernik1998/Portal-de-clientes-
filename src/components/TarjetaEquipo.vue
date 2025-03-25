@@ -23,6 +23,9 @@ import { computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
 const route = useRoute();
+
+console.log('Estoy aqui');
+
 const props = defineProps({
   equipo: {
     type: Object,
@@ -33,6 +36,8 @@ const props = defineProps({
     default: true
   }
 });
+
+
 
 const imagen = computed(()=> props.equipo.imagen ? 'data:image/png;base64,'+props.equipo.imagen : 'src/assets/sbs-logo-azul.png');
 

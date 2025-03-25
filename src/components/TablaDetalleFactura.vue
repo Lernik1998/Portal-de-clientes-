@@ -1,5 +1,5 @@
 <template>
-    <q-table :rows="itemsFiltrados" :columns="columnas" row-key="name" :filter="filtro" v-model:pagination="pagination" 
+    <q-table :rows="itemsFiltrados" :columns="columnas" row-key="name" :filter="filtro" v-model:pagination="pagination"
     no-data-label="No hay datos para mostrar." hide-pagination flat class="tabla">
         <template v-slot:top-right>
             <q-space />
@@ -146,7 +146,7 @@ const columnas = [
 
 <style scoped lang="scss">
 .boton-tabla {
-    border-radius: 8px; 
+    border-radius: 8px;
     border:none;
     margin: 5px;
     color: #000;

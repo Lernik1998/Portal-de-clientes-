@@ -2,17 +2,16 @@
   <!-- <q-layout view="lHh Lpr lFf"> -->
     <q-layout view="hHh lpR fFf">
     <q-header>
-      <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer"/>
+      <q-toolbar class="bg-white">
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" id="btn1"/>
         <q-toolbar-title>
           <div style="display: flex; justify-content: start; align-items:center">
             <img src="../assets/fenando_moll.png" class="logo1">
-            <div id="sbs-logo">
-              <img src="../assets/powered.png" class="logo2">
-            </div>
           </div>
+
         </q-toolbar-title>
-        <q-btn-dropdown color="primary" :label="buttonLabel" unelevated>
+        <!-- color="primary"  -->
+        <q-btn-dropdown :label="buttonLabel" unelevated class="bg-white text-blue-10 text-weight-bold">
           <q-list>
             <q-item v-for="(item, index) in dropdownItems" :key="index" clickable v-close-popup @click="item.action">
               <q-item-section avatar>
@@ -27,12 +26,12 @@
       </q-toolbar>
     </q-header>
     <!-- drawer con las pestañas para pantalla móvil-->
-    <q-drawer v-model="drawerOpen" behavior="mobile" show-if-above bordered @click="toggleLeftDrawer" >
+    <q-drawer v-model="drawerOpen" behavior="mobile" show-if-above bordered @click="toggleLeftDrawer" id="drawer" >
       <q-list>
         <q-item-label header> Secciones </q-item-label>
         <q-item clickable v-ripple v-for="tab in tabs" :key="tab.name" :to="tab.to">
           <q-item-section avatar>
-            <q-icon :name="tab.icon" />
+            <q-icon :name="tab.icon" id="drawer-icon"/>
           </q-item-section>
           <q-item-section>{{ tab.label }}</q-item-section>
         </q-item>
@@ -85,7 +84,7 @@
     </q-page-container>
 
     <!-- Footer -->
-    <q-footer reveal class="q-pa-lg pie" >
+    <q-footer class="q-pa-lg pie" >
           <div class="capa1">
             <div class="caja-texto">
             <div id="soporte" class="subtitulo centrado"><b>soporte</b>@fernandomoll.com</div>
@@ -209,24 +208,15 @@ onMounted(()=> {
   background-color: #F9FAFB;
 }
 
-#sbs-logo {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-self: end;
+#header {
+  background-color: #F9FAFB;
 }
+
 
 .logo1 {
   max-width: 200px;
   height: auto;
   padding: 10px;
-  object-fit: contain;
-}
-.logo2 {
-  max-width: 170px;
-  height: auto;
-  padding: 10px;
-  align-self: flex-end;
   object-fit: contain;
 }
 
@@ -241,10 +231,19 @@ onMounted(()=> {
   padding: 10px;
 }
 
+#btn1 {
+  /* background-color:gray; */
+  color: gray;
+}
+
+
 /* Footer */
 
 .pie{
-  display: flex;
+  /* display: flex; */
+  position: fixed;
+  bottom: 0;
+  width: 100%;
   flex-direction: column;
   background-color: transparent;
   color: #000;

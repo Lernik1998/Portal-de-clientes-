@@ -266,14 +266,8 @@ onMounted(() => {
 
 .btn-volver {
   font-size: medium;
-  background-color: #0e9846;
   border-radius: 8px;
   border: none;
-  transition: background-color 0.3s ease;
-  :hover {
-    filter: brightness(0.8);
-    scale: 1.1;
-  }
 }
 
 .contenedor-texto {

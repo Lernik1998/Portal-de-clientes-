@@ -35,7 +35,7 @@ export default route(function (/* { store, ssrContext } */) {
    Router.beforeEach(async (to, from, next) => {
     try {
       const response = await api.get('/validate_session.php', { withCredentials: true });
-      console.log(response.data);
+      console.log('Validación de sesión:', response.data);
       const autenticado = response.data.message.autenticado;
       const usuario = response.data.message.usuario;
       if (autenticado && usuario) {

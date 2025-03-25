@@ -1,21 +1,24 @@
 <template>
-    <q-table :rows="props.items" :columns="columnas" row-key="name" :filter="filtro" hide-pagination :pagination="pagination"
+    <q-page>
+      <q-table :rows="props.items" :columns="columnas" row-key="name" :filter="equipoSeleccionado" hide-pagination :pagination="pagination"
     no-data-label="No hay datos para mostrar." flat class="tabla">
         <template v-slot:top-right>
             <q-space />
-
                 <!-- Select de busqueda -->
-                <q-select name="Equipo"  v-model="filtro" :options="columnas" option-value="name" option-label="label" emit-value map-options >
-                  <template #default>Seleccione un filtro</template>
+                  <q-select name="Equipo"  v-model="equipoSeleccionado" :options="nombres" option-value="name" option-label="label" emit-value map-options >
+                  <template #default>Seleccione equipo</template>
+
                 </q-select>
 
             <!-- Buscador INPUT cambiado por el Select -->
-            <!-- <q-input dense debounce="300" color="primary" v-model="filtro">
-            <template v-slot:append>
+             <!-- <q-input dense debounce="300" color="primary" v-model="filtro" @update:model-value="filtrar">
+               CORREGIR EL @UPDATE Y HACER QUE LLAME AL MÉTODO DE BUSQUEDA -->
+          <!-- <template v-slot:append>
                 <q-icon name="search" />
             </template>
             </q-input> -->
-        </template>
+
+         </template>
         <template v-slot:top-left>
             <button class="boton-tabla azul" @click="actualizarFiltro(0)">Todos</button>
             <button class="boton-tabla naranja" @click="actualizarFiltro(1)">Nuevos</button>
@@ -33,7 +36,7 @@
         </template>
 
         <!-- Tabla de avisos -->
-        <template v-slot:body-cell-est="props">
+         <template v-slot:body-cell-est="props">
             <q-td :props="props">
                 <button class="text-caption aviso-status" :class="claseEstatus(props.row)">{{
                     props.row.estado == 'Nueva' ?
@@ -54,13 +57,13 @@
             </q-td>
         </template>
     </q-table>
+    </q-page>
 </template>
 
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
 import { api } from 'src/boot/axios';
 
-const filtro = ref("");
 const props = defineProps({
     items: {
         type: Array,
@@ -75,6 +78,9 @@ const props = defineProps({
         required: true
     }
 });
+
+console.log("Items: ", props.items);
+
 const emit = defineEmits(["abrir", "filtrarEstado", "paginar"]);
 const obtenerActualizacion = (aviso) => {
     if(aviso.informes && aviso.informes.length > 0){
@@ -171,24 +177,30 @@ watch(() => props.posicion, (newPosicion) => {
     pagination.value.page = newPosicion;
 });
 
-onMounted(()=>console.log(props.posicion));
 
-const nombres = ref([]);
+onMounted(async () => {
+    console.log("Items obtenidos en TablaAvisos: ", props.items);
+    await obtenerNombres();
+});
+
+const equipoSeleccionado = ref("");
 
 // Obtengo nombres del endpoint /equipos.php (Sin parametros)
+const nombres = ref([]);
 const obtenerNombres = async () => {
     try {
         const response = await api.get("/equipos.php", { withCredentials: true });
         console.log("Nombres obtenidos: ", response.data);
-        if (response.data.success) {
-            nombres.value = response.data.message;
+
+        if (response.data.success && response.data.message.equipos) {
+          nombres.value = response.data.message.equipos.map(equipo => equipo.nombre);
         }
+
     } catch (error) {
         console.log("Error al obtener nombres:", error);
     }
 };
 
-obtenerNombres();
 </script>
 
 <style scoped lang="scss">
