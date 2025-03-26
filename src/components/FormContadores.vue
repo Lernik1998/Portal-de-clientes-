@@ -2,7 +2,7 @@
   <div class="cuerpo">
     <q-form @submit="enviar" ref="form" :key="formKey">
             <div v-for="contador in contadores" v-bind:key="contador.id">
-                <label :for="'input'+contador.id" style="padding-left: 12px; padding-right:12px;" class="texto-descripcion row"><p>{{ contador.nombre }}</p> <q-space/><p>Última lectura: {{ contador.lectura }}</p></label>
+                <label :for="'input'+contador.id" style="padding-left: 12px; padding-right:12px;" class="texto-descripcion row"><p>{{ contador.nombre }}</p> <q-space/><p>{{ $t('formContadores.ultimo_lectura') }}: {{ contador.lectura }}</p></label>
                 <q-input
                     :id="'input'+contador.id"
                     v-model="seleccion[contador.id]"
@@ -10,16 +10,16 @@
                     dense
                     type="number"
                     :rules="[
-                      (val) => !!val || 'Este campo es obligatorio',
-                      (val) => val >= 0 || 'No se permiten números negativos',
-                      (val) => val.toString().length <= 15 || 'El número es demasiado grande'
+                      (val) => !!val || $t('formContadores.error_obligatorio'),
+                      (val) => val >= 0 || $t('formContadores.error_negativo'),
+                      (val) => val.toString().length <= 15 || $t('formContadores.error_grande')
                     ]"
                 />
-            </div>   
+            </div>
             <div class="botones-submit">
-                <q-btn label="Enviar" type="submit" color="primary" unelevated dense/>
+                <q-btn :label="$t('formContadores.boton_enviar')" type="submit" color="primary" unelevated dense/>
                 <q-btn
-                label="Cancelar"
+                :label="$t('formContadores.boton_cancelar')"
                 type="reset"
                 color="negative"
                 outline
@@ -28,7 +28,7 @@
                 @click="cancelar"
                 class="q-ml-sm"
                 />
-          </div> 
+          </div>
     </q-form>
   </div>
 </template>

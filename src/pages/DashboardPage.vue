@@ -3,7 +3,7 @@
         <div class="cabecera" >
             <div class="titulo">
                 <span class="text-subtitle1 text-white">{{ fechaFormateada }}</span>
-                <span class="text-h4 text-weight-bold text-capitalize text-white">¡Hola, {{ authStore.getUser().usuario}}!</span>
+                <span class="text-h4 text-weight-bold text-capitalize text-white">{{ $t('dashboard.bienvenida') }}, {{ authStore.getUser().usuario}}!</span>
                 <span class="text-subtitle2 text-white">{{ authStore.getUser().nombre }}</span>
 
                 <div id="sbs-logo" class="q-mt-sm">
@@ -17,7 +17,7 @@
                 <q-card-section>
                     <div class="contenido-tarjeta">
                         <span class="text-h4">{{ numEquipos }}</span>
-                        <span>Servicios contratados</span>
+                        <span>{{ $t('dashboard.servicios') }}</span>
                     </div>
                 </q-card-section>
                 </q-card>
@@ -25,7 +25,7 @@
                     <q-card-section>
                         <div class="contenido-tarjeta">
                             <span class="text-h4">{{ numAvisos }}</span>
-                            <span>Avisos</span>
+                            <span>{{ $t('dashboard.avisos') }}</span>
                         </div>
                     </q-card-section>
                 </q-card>
@@ -33,7 +33,7 @@
                     <q-card-section>
                         <div class="contenido-tarjeta">
                             <span class="text-h4">{{ totalFacturado.toFixed(2) }}€</span>
-                            <span>Total facturado</span>
+                            <span>{{ $t('dashboard.total_facturado') }}</span>
                         </div>
                     </q-card-section>
                 </q-card>
@@ -51,7 +51,7 @@
                         <div style="font-size: 20px; text-align: center; width: 100%">
                             <div class="row" style="justify-content: center;">
                                 <q-select :options="opcionesAñosAvisos" v-model="añoSeleccionadoAvisos" label="Año" @update:model-value="actualizarGraficoPartes" dense class="select-año"/>
-                                <span id="titulo-historico-avisos">Histórico avisos</span>
+                                <span id="titulo-historico-avisos">{{ $t('dashboard.historico_avisos') }}</span>
                                 <span style="width: 62px;"></span>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                         <div style="font-size: 20px; text-align: center; width: 100%">
                             <div class="row" style="justify-content: center;">
                                 <q-select :options="opcionesAñosFacturas" v-model="añoSeleccionadoFacturas" label="Año" @update:model-value="actualizarGraficoFacturas" dense class="select-año"/>
-                                <span id="titulo-historico-avisos">Facturación</span>
+                                <span id="titulo-historico-avisos">{{ $t('dashboard.facturación') }}</span>
                                 <span style="width: 62px;"></span>
                             </div>
                         </div>
@@ -327,11 +327,23 @@ const actualizarGraficoFacturas = () => {
 });
 };*/
 
+import { useI18n } from 'vue-i18n'
+
+const { locale } = useI18n();
+
+
 onMounted(()=>{
     cargarEquipos();
     cargar();
+
+    // Establecer el idioma al inicio
+  locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
+  console.log('Idioma actual pasado al LoginPage:', locale.value);
+  // Recibo el idioma del padre
 })
+
 </script>
+
 <style scoped>
 .text-white {
     color: white;

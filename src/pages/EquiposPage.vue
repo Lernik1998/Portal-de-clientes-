@@ -1,8 +1,8 @@
 <template>
   <q-page class="q-pa-md">
     <div class="cabecera">
-      <span class="text-h6">Lista de Servicios</span>
-      <span class="text-subtitle2">Consulte sus servicios contratados</span>
+      <span class="text-h6">{{ $t('pagina_servicios.cabecera.titulo') }}</span>
+      <span class="text-subtitle2">{{ $t('pagina_servicios.cabecera.descripcion') }}</span>
       <div class="row justify-end">
         <q-input
           dense
@@ -33,6 +33,9 @@ import { ref, onMounted, onUnmounted } from "vue";
 import { api } from "src/boot/axios";
 import { useQuasar } from "quasar";
 import TarjetaEquipo from "src/components/TarjetaEquipo.vue";
+import { useI18n } from 'vue-i18n'
+
+const { locale } = useI18n(); // Establecer el idioma al inicio
 
 const $q = useQuasar();
 const equipos = ref([]);
@@ -97,6 +100,12 @@ const paginar = () => {
 onMounted(() => {
   window.addEventListener("scroll", paginar);
   cargarEquipos();
+      // Establecer el idioma al inicio
+      locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
+  console.log('Idioma actual pasado al LoginPage:', locale.value);
+  // Recibo el idioma del padre
+  locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
+
 });
 onUnmounted(() => {
   window.removeEventListener("scroll", paginar);

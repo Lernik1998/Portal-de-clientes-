@@ -6,6 +6,15 @@
           <div class="cabecera">
             <img src="../assets/fenando_moll.png" class="logo1">
             <img src="../assets/powered.png" class="logo2">
+            <!-- Switcher para idiomas -->
+            <q-btn
+              flat
+              round
+              dense
+              color="black"
+              icon="language"
+              @click="toggleLanguage"
+            />
           </div>
         </q-toolbar-title>
       </q-toolbar>
@@ -13,7 +22,6 @@
       <q-page-container class="global">
         <router-view />
       </q-page-container>
-
       <!-- Footer -->
       <q-footer class="q-pa-lg pie">
           <div class="capa1">
@@ -30,6 +38,21 @@
       </q-footer>
     </q-layout>
 </template>
+
+<script setup>
+import { useI18n } from 'vue-i18n'
+import { provide } from 'vue'
+
+const { locale } = useI18n()
+
+provide('locale', locale.value); // Proporciona el idioma al hijo
+
+// Envio de datos a los componentes hijos
+const toggleLanguage = () => {
+  console.log('Idioma actual:', locale.value)
+  locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
+}
+</script>
 
 <style scoped lang="scss">
 .global {

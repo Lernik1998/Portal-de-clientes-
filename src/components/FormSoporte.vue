@@ -1,55 +1,55 @@
 <template>
     <div class="cuerpo">
       <q-form @submit.prevent="enviar" ref="form" :key="formKey">
-        <label for="contactName" style="padding-left: 12px" class="texto-descripcion">Nombre del Contacto</label>
+        <label for="contactName" style="padding-left: 12px" class="texto-descripcion">{{ $t('formSoporte.nombre.label') }}</label>
         <q-input
           id="contactName"
           v-model="formData.contacto"
           outlined
           dense
           :rules="[
-          (val) => !!val || 'Este campo es obligatorio',
-          (val) => val.toString().length <= 100 || 'El texto es demasiado largo'
+          (val) => !!val || $t('formSoporte.nombre.error_obligatorio'),
+          (val) => val.toString().length <= 100 || $t('formSoporte.nombre.error_largo')
           ]"
         />
-        <label for="contactPhone" style="padding-left: 12px" class="texto-descripcion" >Teléfono del Contacto</label>
+        <label for="contactPhone" style="padding-left: 12px" class="texto-descripcion" >{{ $t('formSoporte.telefono.label') }}</label>
         <q-input
           id="contactPhone"
           v-model="formData.telefono"
           outlined
           dense
           :rules="[
-          (val) => !!val || 'Este campo es obligatorio',
-          (val) => val.toString().length <= 40 || 'El texto es demasiado largo'
+          (val) => !!val || $t('formSoporte.telefono.error_obligatorio'),
+          (val) => val.toString().length <= 40 || $t('formSoporte.telefono.error_largo')
           ]"
         />
-        <label for="contactHour" style="padding-left: 12px" class="texto-descripcion">Horario</label>
+        <label for="contactHour" style="padding-left: 12px" class="texto-descripcion">{{ $t('formSoporte.horario.label') }}</label>
         <q-input
           id="contactHour"
           v-model="formData.horario"
           outlined
           dense
           :rules="[
-          (val) => !!val || 'Este campo es obligatorio',
-          (val) => val.toString().length <= 40 || 'El texto es demasiado largo'
+          (val) => !!val || $t('formSoporte.horario.error_obligatorio'),
+          (val) => val.toString().length <= 40 || $t('formSoporte.horario.error_largo')
           ]"
         />
         <div v-if="!consumibles">
-            <label for="problem" style="padding-left: 12px" class="texto-descripcion">Descripción del Problema</label>
+            <label for="problem" style="padding-left: 12px" class="texto-descripcion">{{ $t('formSoporte.problema.label') }}</label>
             <q-input
             id="problem"
             v-model="formData.descripcion"
             outlined
             type="textarea"
             :rules="[
-            (val) => !!val || 'Este campo es obligatorio',
-            (val) => val.toString().length <= 1000 || 'El texto es demasiado largo'
+            (val) => !!val || $t('formSoporte.problema.error_obligatorio'),
+            (val) => val.toString().length <= 1000 || $t('formSoporte.problema.error_largo')
             ]"
             autogrow
             />
         </div>
         <div v-else>
-            <span style="margin: 0px;" class="texto-descripcion">Artículos</span>
+            <span style="margin: 0px;" class="texto-descripcion">{{ $t('formSoporte.articulos.label') }}</span>
             <div class="articulos">
             <q-checkbox size="md" v-model="seleccionados" v-for="articulo in articulos" dense class="articulo"
             :key="articulo.id" :val="articulo.id" :label="articulo.nombre.substring(articulo.nombre.indexOf(' ') + 1)"/>
@@ -57,10 +57,10 @@
         </div>
 
         <div class="botones-submit">
-          <q-btn label="Enviar" type="submit" color="primary" unelevated dense/>
+          <q-btn :label="$t('formSoporte.boton_enviar')"  type="submit" color="primary" unelevated dense/>
           <q-btn
             unelevated
-            label="Cancelar"
+            :label="$t('formSoporte.boton_cancelar')"
             type="reset"
             color="negative"
             outline

@@ -1,8 +1,8 @@
 <template>
     <q-page class="q-pa-md">
     <div class="cabecera">
-        <span class="text-h6">Sus avisos</span>
-        <span class="text-subtitle2">Visualice sus partes de trabajo generados</span>
+        <span class="text-h6">{{ $t('avisosPage.cabecera.titulo') }}</span>
+        <span class="text-subtitle2">{{ $t('avisosPage.cabecera.descripcion') }}</span>
     </div>
 
     <div id="tabla-avisos">
@@ -18,10 +18,10 @@
     <q-dialog v-model="abrirParte" class="dialogo">
         <q-card>
             <q-bar class="barra-titulo">
-                <div>Resolución aviso</div>
+                <div>{{ $t('avisosPage.dialogo.titulo') }}</div>
                 <q-space />
                 <q-btn dense flat icon="close" v-close-popup>
-                    <q-tooltip>Cerrar</q-tooltip>
+                    <q-tooltip>{{ $t('boton_cancelar') }}</q-tooltip>
                 </q-btn>
             </q-bar>
 
@@ -67,8 +67,11 @@ import { useRouter, useRoute } from 'vue-router';
 import { useAvisoStore } from 'src/stores/avisos';
 import TarjetaAviso from 'src/components/TarjetaAviso.vue';
 import TablaAvisos from 'src/components/TablaAvisos.vue';
+import { useI18n } from 'vue-i18n'
 
 
+// Variables
+const { locale } = useI18n();
 const $q = useQuasar();
 const router = useRouter();
 const route = useRoute();
@@ -143,7 +146,12 @@ onMounted(() => {
     window.addEventListener('scroll', paginarScroll);
   }
   cargarAvisos();
+
+    // Establecer el idioma al inicio
+    locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
+  console.log('Idioma actual pasado al LoginPage:', locale.value);
 });
+
 
 onUnmounted(() => {
   if (window.innerWidth < 820) {

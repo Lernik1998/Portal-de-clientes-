@@ -7,7 +7,7 @@
           no-caps
           icon="arrow_back"
           @click="router.back()"
-          label="Volver"
+          :label="$t('pes.boton_volver')"
           flat
           v-if="esPortal"
         />
@@ -37,7 +37,7 @@
           <span
             class="texto-titulo cabecera text-weight-bold"
             v-if="equipo.descripcion != ''"
-            >Descripción del equipo</span
+            >{{ $t('pes.descripcion') }}</span
           >
           <br />
           <div class="contenedor-texto">
@@ -52,7 +52,7 @@
               @click="toggleDescripcion"
               class="leer-mas"
             >
-              {{ mostrarDescripcion ? "Leer menos" : "Leer más" }}
+              {{ mostrarDescripcion ? $t('pes.leer_menos') : $t('pes.leer_mas') }}
             </span>
             <q-separator
               style="width: 100px; margin-top: 1rem; margin-bottom: 1rem"
@@ -62,11 +62,11 @@
       </div>
 
        <!-- Sección de botones mt-26 mr-20 ml-30-->
-       <div class="mt-40 flex-initial w-64" id="botonesGrupo">    <!--//////////////////////-->
+       <div class="mt-40 flex-initial w-64" id="botonesGrupo">
         <q-separator
           style="width: 100px; margin-top: 1rem; margin-bottom: 1rem"
         />
-        <span class="texto-titulo text-weight-bold">Seleccione una opción</span>
+        <span class="texto-titulo text-weight-bold">{{ $t('pes.selecciona_opcion') }}</span>
 
         <div class="botones grid grid-cols-2" v-if="opcion === 0">
           <div color="primary" @click="seleccionarOpcion(1)">
@@ -121,7 +121,9 @@ import { useQuasar } from "quasar";
 import FormContadores from "src/components/FormContadores.vue";
 import FormSoporte from "src/components/FormSoporte.vue";
 import logo from "src/assets/SBS-logo-azul.png";
+import { useI18n } from 'vue-i18n'
 
+const { locale } = useI18n(); // Gestiona el idioma
 const route = useRoute();
 const router = useRouter();
 const $q = useQuasar();
@@ -235,6 +237,10 @@ const avisosEquipo = () => {
 
 onMounted(() => {
   cargarEquipo();
+    // Establecer el idioma al inicio
+  locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
+  console.log('Idioma actual pasado al LoginPage:', locale.value);
+  // Recibo el idioma del padre
 });
 </script>
 

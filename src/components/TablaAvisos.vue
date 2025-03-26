@@ -1,7 +1,7 @@
 <template>
     <q-page>
       <q-table :rows="props.items" :columns="columnas" row-key="name" :filter="equipoSeleccionado" hide-pagination :pagination="pagination"
-    no-data-label="No hay datos para mostrar." flat class="tabla">
+    no-data-label="No hay datos para mostrar" flat class="tabla">
         <template v-slot:top-right>
             <q-space />
                 <!-- Select de busqueda -->
@@ -67,7 +67,11 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
 import { api } from 'src/boot/axios';
+import { useI18n } from 'vue-i18n'
 
+
+// Variables
+const { locale } = useI18n();
 const props = defineProps({
     items: {
         type: Array,
@@ -185,6 +189,10 @@ watch(() => props.posicion, (newPosicion) => {
 onMounted(async () => {
     console.log("Items obtenidos en TablaAvisos: ", props.items);
     await obtenerNombres();
+
+     // Establecer el idioma al inicio
+     locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
+  console.log('Idioma actual pasado al LoginPage:', locale.value);
 });
 
 const equipoSeleccionado = ref("");

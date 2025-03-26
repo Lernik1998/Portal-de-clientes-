@@ -5,9 +5,9 @@
       <div class="user_options-container" >
           <div class="user_options-text">
             <div class="user_options-unregistered">
-              <h2 class="user_unregistered-title">No estás con nosotros?</h2>
-              <p class="user_unregistered-text">La mejor solución disponible para gestionar los clientes de tu empresa.</p>
-              <button class="user_unregistered-signup" id="signup-button" @click="submitForm('contacto')" >Contáctanos</button>
+              <h2 class="user_unregistered-title">{{ $t('header.titulo') }}</h2>
+              <p class="user_unregistered-text">{{ $t('header.descripcion') }}</p>
+              <button class="user_unregistered-signup" id="signup-button" @click="submitForm('contacto')" >{{ $t('header.boton_contacto') }}</button>
             </div>
 
             <!-- No usado, falta de código JS -->
@@ -21,25 +21,25 @@
           <div class="user_options-forms" id="user_options-forms">
             <div style="padding: 5%; width: 100%;" id="login-form">
                 <!-- AQUI EMPIEZA EL LOGIN PARA INICIAR SESION-------------------------------------------------------------->
-              <h2 class="forms_title">Iniciar sesión</h2>
+              <h2 class="forms_title">{{ $t('login.titulo') }}</h2>
               <q-form @submit="login" class="forms_form">
                 <fieldset class="forms_fieldset control">
                     <q-input
                         v-model="usuario"
-                        label="Correo Electrónico"
+                        :label="$t('login.correo.label')"
                         type="email"
                         :rules="[
-                            (val) => !!val || 'Este campo es obligatorio',
-                            (val) => val.toString().length <= 100 || 'El texto es demasiado largo'
+                            (val) => !!val || $t('login.correo.error_obligatorio'),
+                            (val) => val.toString().length <= 100 || $t('login.correo.error_largo')
                         ]"
                       />
                       <q-input
                         v-model="contraseña"
-                        label="Contraseña"
+                        :label="$t('login.contraseña.label')"
                         type="password"
                         :rules="[
-                            (val) => !!val || 'Este campo es obligatorio',
-                            (val) => val.toString().length <= 100 || 'El texto es demasiado largo'
+                            (val) => !!val || $t('login.contraseña.error_obligatorio'),
+                            (val) => val.toString().length <= 100 || $t('login.contraseña.error_largo')
                         ]"
                       />
 
@@ -47,7 +47,7 @@
                 <div style="display: flex; justify-content: center;">
                   <q-btn
                     dense
-                    label="Iniciar Sesión"
+                    :label="$t('login.boton')"
                     type="submit"
                     color="#083CC2"
                     class="forms_buttons-action"
@@ -63,29 +63,29 @@
     <q-dialog v-model="abrirDialogo" persistent>
       <q-card style="padding: 10px;">
         <q-card-section>
-          <p>Correo enviado correctamente. Revise su bandeja de correo no deseado si no lo encuentra.</p>
+          <p>{{ $t('dialogo_confirmacion.mensaje') }}</p>
         </q-card-section>
         <q-form @submit="validar" ref="formValidation" :key="formValidationKey">
           <q-card-section>
               <q-input
                 id="codigo"
                 v-model="validacion"
-                label="codigo de verificación"
+                :label="$t('dialogo_confirmacion.codigo_verificacion.label')"
                 type="number"
                 :rules="[
-                  (val) => !!val || 'Este campo es obligatorio',
-                  (val) => val >= 0 || 'No se permiten números negativos',
-                  (val) => val.toString().length <= 6 || 'El número no es valido'
+                  (val) => !!val || $t('dialogo_confirmacion.codigo_verificacion.error_obligatorio'),
+                  (val) => val >= 0 || $t('dialogo_confirmacion.codigo_verificacion.error_negativo'),
+                  (val) => val.toString().length <= 6 || $t('dialogo_confirmacion.codigo_verificacion.error_largo')
                 ]"
               />
 
 
           </q-card-section>
           <q-card-actions>
-            <q-btn label="Validar" type="submit" color="primary" class="forms_buttons-action"/>
-            <q-btn label="Cancelar" type="reset" color="negative" outline @click="cancelar" class="forms_buttons-action"/>
+            <q-btn :label="$t('dialogo_confirmacion.boton_validar')" type="submit" color="primary" class="forms_buttons-action"/>
+            <q-btn :label="$t('dialogo_confirmacion.boton_cancelar')" type="reset" color="negative" outline @click="cancelar" class="forms_buttons-action"/>
             <q-space/>
-            <div style="display:flex; justify-content: end; align-items: center;">¿No has recibido el correo? <p @click="login" class="reenviar"> Reenviar </p></div>
+            <div style="display:flex; justify-content: end; align-items: center;">{{ $t('dialogo_confirmacion.reenviar') }} <p @click="login" class="reenviar"> {{ $t('dialogo_confirmacion.boton_reenviar') }} </p></div>
           </q-card-actions>
         </q-form>
       </q-card>
@@ -209,7 +209,23 @@ const submitForm = (type) => {
   }
 };
 
-// onMounted(()=> {});
+import { useI18n } from 'vue-i18n'
+
+const { locale } = useI18n();
+
+// const toggleLanguage = () => {
+//   console.log('Idioma actual:', locale.value)
+//   locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
+//   provide('locale', locale.value);
+// }
+
+onMounted(() => {
+  // Establecer el idioma al inicio
+  locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
+  console.log('Idioma actual pasado al LoginPage:', locale.value);
+  // Recibo el idioma del padre
+  locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
+});
 </script>
 
 <style scoped>
