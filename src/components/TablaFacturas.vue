@@ -1,6 +1,7 @@
 <template>
-    <q-table :rows="itemsFiltrados" :columns="columnas" row-key="name" :filter="filtro" v-model:pagination="pagination" 
+    <q-table dense :rows="itemsFiltrados" :columns="columnas" row-key="name" :filter="filtro" v-model:pagination="pagination"
     no-data-label="No hay datos para mostrar." hide-pagination flat class="tabla">
+
         <template v-slot:top-right>
             <q-space />
             <q-input dense debounce="300" color="primary" v-model="filtro">
@@ -9,13 +10,15 @@
             </template>
             </q-input>
         </template>
+
         <template v-slot:bottom>
             <div class="row justify-center q-mt-md" style="width: 100%;">
                 <q-pagination
                     v-model="pagination.page"
                     direction-links
-                    color="grey-8"
-                    active-color="primary"
+                    active-text-color="blue"
+                    text-color="black"
+                    active-color="transparent"
                     flat
                     :max="pagesNumber"
                 />
@@ -23,34 +26,35 @@
         </template>
         <template v-slot:body-cell-base="props">
             <q-td :props="props">
-              {{ props.row.base.toFixed(2) }}
+              {{ props.row.base.toFixed(2) }} €
             </q-td>
         </template>
         <template v-slot:body-cell-iva="props">
             <q-td :props="props">
-              {{ props.row.iva.toFixed(2) }}
+              {{ props.row.iva.toFixed(2) }} €
             </q-td>
         </template>
-        <template v-slot:body-cell-total="props">
+        <template v-slot:body-cell-tot="props">
             <q-td :props="props">
-              {{ props.row.total.toFixed(2) }}
+              {{ props.row.total.toFixed(2) }} €
             </q-td>
         </template>
+
         <template v-slot:body-cell-ver="props">
             <q-td style="max-width: 50px;">
-                <button class="boton-tabla azul" @click="abrirItem(props.row)">Detalles</button>
+                <button class="boton-tabla azul" id="btn1" @click="abrirItem(props.row)">Detalles</button>
             </q-td>
         </template>
         <template v-slot:body-cell-pdf="props">
             <q-td style="max-width: 50px;">
-                <q-btn unelevated class="boton-tabla gris" icon="print" @click="abrirPdf(props.row)"></q-btn>
+                <q-btn unelevated class="boton-tabla gris" icon="print" id="btn2" @click="abrirPdf(props.row)"></q-btn>
             </q-td>
         </template>
     </q-table>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 const filtro = ref("");
 const props = defineProps({
     items: {
@@ -58,11 +62,12 @@ const props = defineProps({
         required: true
     }
 });
+
 const emit = defineEmits(["abrir", "imprimir"]);
 
 const estadoFiltro = ref(0);
 const itemsFiltrados = computed(()=>{
-    console.log(props.items);
+    // console.log(props.items);
     switch(estadoFiltro.value){
         //Cambiar lógica de filtrado
     }
@@ -75,6 +80,7 @@ const pagination = ref({
     rowsPerPage: 15
 });
 const pagesNumber = computed(() => Math.ceil(itemsFiltrados.value.length / pagination.value.rowsPerPage));
+
 const abrirItem = (item) => {
     emit('abrir', item);
 };
@@ -122,22 +128,108 @@ const columnas = [
         align: "center"
     },
     {
-        name: "ver"
+        name: "ver",
+        align: "center"
     },
     {
-        name: "pdf"
+        name: "pdf",
+        align: "center"
     }
 ];
+
+onMounted(() => {
+  console.log("Facturas obt componente padre:",props);
+});
 </script>
 
 <style scoped lang="scss">
 .boton-tabla {
-    border-radius: 8px; 
+    border-radius: 8px;
     border:none;
     margin: 5px;
     color: #000;
     transition: background-color 0.3s ease;
 }
+
+/* Responsivo para pantallas*/
+
+@media (max-width: 1150px) {
+  #btn1 {
+    font-size: 11px; // Reducir el tamaño del texto
+    padding: 2px 2px; // Ajustar el espaciado
+    // margin: 2px; // Reducir el margen
+    gap: 10px;
+    margin-right: 30px;
+  }
+
+  #btn2 {
+    font-size: 11px; // Reducir el tamaño del texto
+    padding: 2px 2px; // Ajustar el espaciado
+    // margin: 2px; // Reducir el margen
+    gap: 10px;
+    margin-left: 10px;
+  }
+
+  .q-td {
+    padding: 2px; // Ajustar la separación de las celdas
+  }
+}
+
+@media (max-width: 1000px) {
+  #btn1 {
+    font-size: 10px; // Reducir el tamaño del texto
+    padding: 2px 2px; // Ajustar el espaciado
+    margin: 2px; // Reducir el margen
+    gap: 10px;
+
+    margin-right: 60px;
+  }
+
+  #btn2 {
+    font-size: 10px; // Reducir el tamaño del texto
+    padding: 1px 1px; // Ajustar el espaciado
+    // margin: 2px; // Reducir el margen
+    gap: 10px;
+    margin-left: 20px;
+  }
+
+  .q-td {
+    padding: 2px; // Ajustar la separación de las celdas
+  }
+}
+
+
+@media (max-width: 800px) {
+  .boton-tabla {
+    font-size: 3px; // Reducir el tamaño del texto
+    // padding: 4px 1px; // Ajustar el espaciado
+    // margin: 2px; // Reducir el margen
+  }
+
+  #btn1 {
+    font-size: 8px; // Reducir el tamaño del texto
+    padding: 2px 2px; // Ajustar el espaciado
+    // margin: 2px; // Reducir el margen
+    gap: 10px;
+    // margin-left: 10px;
+    margin-right: 60px;
+  }
+
+  #btn2 {
+    font-size: 8px; // Reducir el tamaño del texto
+    padding: 2px 2px; // Ajustar el espaciado
+    // margin: 2px; // Reducir el margen
+    gap: 10px;
+    margin-left: 30px;
+  }
+
+  .q-td {
+    padding: 4px; // Ajustar la separación de las celdas
+  }
+}
+
+
+
 .boton-tabla:hover {
     filter: brightness(0.8);
 }

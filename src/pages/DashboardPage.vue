@@ -1,12 +1,12 @@
 <template>
-    <q-page style="background-color: #F9FAFB;">
-        <div class="cabecera">
+    <q-page style="background-color: #F9FAFB;" >
+        <div class="cabecera" >
             <div class="titulo">
                 <span class="text-subtitle1 text-white">{{ fechaFormateada }}</span>
                 <span class="text-h4 text-weight-bold text-capitalize text-white">¡Hola, {{ authStore.getUser().usuario}}!</span>
                 <span class="text-subtitle2 text-white">{{ authStore.getUser().nombre }}</span>
 
-                <div id="sbs-logo">
+                <div id="sbs-logo" class="q-mt-sm">
               <img src="../assets/powered.png" class="logo2">
             </div>
             </div>
@@ -75,7 +75,8 @@
                     </q-card-section>
                 </q-card>
             </div>
-            <div id="sliderEquipos" class="mr-20">
+            <!-- id="sliderEquipos" Class previo class="mr-20" -->
+            <div class="q-mr-md q-mx-auto q-mt-sm">
               <EquiposSlider :equipos="equipos" :cargados="cargados" @paginar="paginar"/>
             </div>
         </div>
@@ -357,7 +358,6 @@ onMounted(()=>{
 /* Logo */
 #sbs-logo {
   position: absolute;
-  /* width: 100px; */
   right: 50px;
 }
 
@@ -421,20 +421,16 @@ onMounted(()=>{
   margin-left: 30px;
   margin-right: 30px;
 }
-@media (max-width: 800px){
+@media (max-width: 450px){
     .grafico {
         max-width: 90vh;
     }
     #sliderEquipos {
-        width: 80%;
-        margin: 0 auto;
+        width: 100%;
+        /* margin-left: 30px; */
+        /* margin: 0 auto; */
+         /* margin-right: 50px; */
         margin-top: 10px;
-    }
-}
-
-@media (max-width: 1800px) {
-    #sliderEquipos {
-        margin-left: 100px;
     }
 }
 </style>

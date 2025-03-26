@@ -1,112 +1,115 @@
 <template>
-  <!-- <q-page class="pagina"> -->
-    <q-page class="flex flex-row ml-20">
-    <!-- Btn volver debajo del header -->
-    <div class="q-pa-md zona-volver">
-      <!-- BTN -->
-      <q-btn
-        class="btn-volver"
-        no-caps
-        icon="arrow_back"
-        @click="router.back()"
-        label="Volver"
-        flat
-        v-if="esPortal"
-      />
-    </div>
-
-    <div class="mt-30 ml-30">
-      <div class="mb-2 flex flex-col">
-        <span class="texto-titulo cabecera text-weight-bold mb-2">{{
-          fechaFormateada
-        }}</span>
-        <span class="text-4xl cabecera text-weight-bold mb-6">{{
-          equipo.NOM
-        }}</span>
-      </div>
-
-      <div>
-        <img
-          :src="imageSource"
-          style="object-fit: cover"
-          ref="imagen"
-          id="imagen"
+  <!-- class="q-pa-md q-mt-md q-pa-lg q-mt-sm"-->
+  <q-page class="pagina">
+      <div class="q-pa-md zona-volver">
+        <q-btn
+          class="btn-volver"
+          no-caps
+          icon="arrow_back"
+          @click="router.back()"
+          label="Volver"
+          flat
+          v-if="esPortal"
         />
-        <span class="texto-titulo cabecera text-weight-bold" v-if="equipo.descripcion != ''"
-          >Descripción del equipo</span
-        >
-        <br />
-        <div class="contenedor-texto">
-          <p
-            class="texto-descripcion"
-            v-html="descripcion"
-            v-if="mostrarDescripcion"
-          ></p>
-          <p class="texto-descripcion" v-html="descripcionCorta" v-else></p>
+      </div>
+
+<!-- General q-mt-md q-pa-md -->
+      <div class="flex q-responsive">
+          <!-- Información del equipo -->
+        <div class="mt-40 ml-30 mr-30 flex-initial w-64">
+
+        <div class="mb-2 flex flex-col">
+          <span class="texto-titulo cabecera text-weight-bold mb-2">{{
+            fechaFormateada
+          }}</span>
+          <span class="text-4xl cabecera text-weight-bold mb-6">{{
+            equipo.NOM
+          }}</span>
+        </div>
+
+        <div>
+          <img
+            :src="imageSource"
+            style="object-fit: cover"
+            ref="imagen"
+            id="imagen"
+          />
           <span
-            v-if="descripcion.length > limiteCaracteres"
-            @click="toggleDescripcion"
-            class="leer-mas"
+            class="texto-titulo cabecera text-weight-bold"
+            v-if="equipo.descripcion != ''"
+            >Descripción del equipo</span
           >
-            {{ mostrarDescripcion ? "Leer menos" : "Leer más" }}
-          </span>
-          <q-separator
-        style="width: 100px; margin-top: 1rem; margin-bottom: 1rem"
-      />
+          <br />
+          <div class="contenedor-texto">
+            <p
+              class="texto-descripcion"
+              v-html="descripcion"
+              v-if="mostrarDescripcion"
+            ></p>
+            <p class="texto-descripcion" v-html="descripcionCorta" v-else></p>
+            <span
+              v-if="descripcion.length > limiteCaracteres"
+              @click="toggleDescripcion"
+              class="leer-mas"
+            >
+              {{ mostrarDescripcion ? "Leer menos" : "Leer más" }}
+            </span>
+            <q-separator
+              style="width: 100px; margin-top: 1rem; margin-bottom: 1rem"
+            />
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="mt-26 mr-20 ml-30">
-      <q-separator
-        style="width: 100px; margin-top: 1rem; margin-bottom: 1rem"
-      />
-      <span class="texto-titulo text-weight-bold"
-        >Seleccione una opción</span
-      >
+       <!-- Sección de botones mt-26 mr-20 ml-30-->
+       <div class="mt-40 flex-initial w-64" id="botonesGrupo">    <!--//////////////////////-->
+        <q-separator
+          style="width: 100px; margin-top: 1rem; margin-bottom: 1rem"
+        />
+        <span class="texto-titulo text-weight-bold">Seleccione una opción</span>
 
-      <div class="botones grid grid-cols-2" v-if="opcion === 0">
-        <div color="primary" @click="seleccionarOpcion(1)">
-          <img src="../assets/btn-soporte.png" width="150" />
+        <div class="botones grid grid-cols-2" v-if="opcion === 0">
+          <div color="primary" @click="seleccionarOpcion(1)">
+            <img src="../assets/btn-soporte.png" width="150" />
+          </div>
+          <div
+            color="primary"
+            @click="seleccionarOpcion(2)"
+            v-if="tieneConsumibles"
+          >
+            <img src="../assets/btn-consumibles.png" width="150" />
+          </div>
+          <div
+            color="primary"
+            @click="seleccionarOpcion(3)"
+            v-if="tieneContadores"
+          >
+            <img src="../assets/btn-contadores.png" width="150" />
+          </div>
+          <!-- Se podría verificar si hay Incidencias con v-if="tieneServicio" -->
+          <div color="primary" @click="avisosEquipo()">
+            <img src="../assets/btn-servicio.png" width="150" v-if="esPortal" />
+          </div>
         </div>
-        <div
-          color="primary"
-          @click="seleccionarOpcion(2)"
-          v-if="tieneConsumibles"
-        >
-          <img src="../assets/btn-consumibles.png" width="150" />
-        </div>
-        <div
-          color="primary"
-          @click="seleccionarOpcion(3)"
-          v-if="tieneContadores"
-        >
-          <img src="../assets/btn-contadores.png" width="150" />
-        </div>
-        <!-- Se podría verificar si hay Incidencias con v-if="tieneServicio" -->
-        <div color="primary" @click="avisosEquipo()">
-          <img src="../assets/btn-servicio.png" width="150" v-if="esPortal" />
-        </div>
+        <FormSoporte
+          v-else-if="opcion === 1"
+          :consumibles="false"
+          @volver="opcion = 0"
+          :equipo="equipo"
+        />
+        <FormSoporte
+          v-else-if="opcion === 2"
+          :consumibles="true"
+          @volver="opcion = 0"
+          :equipo="equipo"
+        />
+        <FormContadores
+          v-else-if="opcion === 3"
+          @volver="opcion = 0"
+          :equipo="equipo"
+        />
       </div>
-      <FormSoporte
-        v-else-if="opcion === 1"
-        :consumibles="false"
-        @volver="opcion = 0"
-        :equipo="equipo"
-      />
-      <FormSoporte
-        v-else-if="opcion === 2"
-        :consumibles="true"
-        @volver="opcion = 0"
-        :equipo="equipo"
-      />
-      <FormContadores
-        v-else-if="opcion === 3"
-        @volver="opcion = 0"
-        :equipo="equipo"
-      />
-
-    </div>
+      </div>
   </q-page>
 </template>
 
@@ -328,6 +331,43 @@ onMounted(() => {
   }
   .leer-mas {
     font-size: 0.5rem;
+  }
+  #botonesGrupo {
+    margin-top: 10px;
+    margin-left: 45px;
+  }
+}
+
+
+@media (max-width: 900px) {
+  .pagina {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding: 0% 5%;
+    margin-left: 60px;
+  }
+  .botones {
+    flex-direction: row;
+  }
+  .contenedor-texto p {
+    font-size: 0.5rem;
+  }
+  #imagen {
+    max-width: 70%;
+  }
+  .texto-titulo {
+    font-size: 0.5rem;
+  }
+  .texto-descripcion {
+    font-size: 0.4rem;
+  }
+  .leer-mas {
+    font-size: 0.5rem;
+  }
+  #botonesGrupo {
+    margin-top: 10px;
+    margin-left: 65px;
   }
 }
 </style>

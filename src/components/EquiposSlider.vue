@@ -1,6 +1,6 @@
 <template>
-  <Splide ref="splideRef" :options="splideOptions">
-    <SplideSlide v-for="equipo in equipos" :key="equipo.id" class="pl-40">
+  <Splide ref="splideRef" :options="splideOptions" id="sliderEquipos">
+    <SplideSlide v-for="equipo in equipos" :key="equipo.id">
       <TarjetaEquipo :equipo="equipo" :mostrar-contrato="false"/>
     </SplideSlide>
   </Splide>
@@ -36,6 +36,8 @@ const splideOptions = {
   breakpoints: {
     600: {
       perPage: 1,       // Mostrar 1 equipo en pantallas pequeñas
+      // padding: '10px',
+      width: '100%'
     },
     900: {
       perPage: 2,       // Mostrar 2 equipos en pantallas medianas
@@ -59,5 +61,15 @@ onMounted(()=>{
 </script>
 
 <style lang="scss">
+
+/* Responsivo splider en equipos*/
+// #sliderEquipos {
+//   @media (max-width: 600px) {
+//     // width: 100%;
+//     margin-top: 10px;
+//     margin-right: 80px;
+//     // padding-right: 100px;
+//   }
+// }
 
 </style>

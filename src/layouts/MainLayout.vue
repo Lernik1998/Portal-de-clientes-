@@ -10,7 +10,7 @@
           </div>
 
         </q-toolbar-title>
-        <!-- color="primary"  -->
+        <!-- Previo color="primary"  -->
         <q-btn-dropdown :label="buttonLabel" unelevated class="bg-white text-blue-10 text-weight-bold">
           <q-list>
             <q-item v-for="(item, index) in dropdownItems" :key="index" clickable v-close-popup @click="item.action">
@@ -84,7 +84,7 @@
     </q-page-container>
 
     <!-- Footer -->
-    <q-footer class="q-pa-lg pie" >
+    <q-footer class="q-pa-lg q-mt-sm pie absolute-bottom" >
           <div class="capa1">
             <div class="caja-texto">
             <div id="soporte" class="subtitulo centrado"><b>soporte</b>@fernandomoll.com</div>
@@ -212,7 +212,6 @@ onMounted(()=> {
   background-color: #F9FAFB;
 }
 
-
 .logo1 {
   max-width: 200px;
   height: auto;
@@ -232,7 +231,6 @@ onMounted(()=> {
 }
 
 #btn1 {
-  /* background-color:gray; */
   color: gray;
 }
 
@@ -241,8 +239,8 @@ onMounted(()=> {
 
 .pie{
   /* display: flex; */
-  position: fixed;
-  bottom: 0;
+  /* position: fixed; */
+  /* bottom: 0; */
   width: 100%;
   flex-direction: column;
   background-color: transparent;
@@ -317,6 +315,9 @@ onMounted(()=> {
     margin: 0 auto;
     align-self: baseline;
     object-fit: contain;
+  }
+  .pie{
+    bottom: 0;
   }
 }
 </style>

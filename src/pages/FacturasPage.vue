@@ -9,7 +9,7 @@
         </div>
         <div id="lista-facturas">
             <q-list bordered separator>
-                <TarjetaFactura v-for="factura in facturas" :key="factura.numero" :factura="factura"/>
+                <TarjetaFactura v-for="factura in facturas" :key="factura.numero" :factura="factura" @abrir="abrirDetalle" @imprimir="imprimirPdf"/>
             </q-list>
         </div>
         <q-dialog v-model:model-value="abrirFactura" full-width>
@@ -113,7 +113,7 @@ const imprimirPdf = (factura) => {
         }catch(error){
             console.log("Error:", error);
         }
-    }  
+    }
     $q.loading.hide(); */
     id.value = factura.id;
 };

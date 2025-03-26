@@ -1,7 +1,7 @@
 <template>
-     <q-card class="q-mb-md tarjeta-equipo" style="max-width: 300px; min-height: 250px;" @click="navegar">
-      <!--      <q-card class="q-mb-md tarjeta-equipo clickable" style="max-width: 300px; min-height: 250px;" @click="navegar"> -->
-            <q-card-section>
+     <!-- <q-card class="q-mb-md tarjeta-equipo" style="max-width: 300px; min-height: 250px;" @click="navegar"> -->
+           <q-card class="q-mb-md tarjeta-equipo" @click="navegar">
+            <q-card-section class="q-pa-md">
                 <div class="column no-wrap items-center">
                 <div class="contenedor-imagen">
                     <img :src="imagen" style="width: 100px; object-fit: cover;"/>
@@ -70,7 +70,6 @@ const navegar = () => {
     background-color: #d4edda;
 }
 
-
 .contrato-status.caducado {
     background-color: #fff3cd;
 }
@@ -81,12 +80,13 @@ const navegar = () => {
     align-items:center
 }
 
+/* Animación de tarjeta equipo*/
 .tarjeta-equipo {
     transition: all 0.3s ease-in-out;
     border-radius: 12px;
     overflow: hidden;
     background: rgba(255, 255, 255, 0.2); /* Efecto Glass */
-
+    width: 100%;
     &:hover {
         transform: scale(1.1);
         box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);

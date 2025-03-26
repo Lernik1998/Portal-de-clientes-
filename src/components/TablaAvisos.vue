@@ -7,7 +7,6 @@
                 <!-- Select de busqueda -->
                   <q-select name="Equipo"  v-model="equipoSeleccionado" :options="nombres" option-value="name" option-label="label" emit-value map-options >
                   <template #default>Seleccione equipo</template>
-
                 </q-select>
 
             <!-- Buscador INPUT cambiado por el Select -->
@@ -27,11 +26,16 @@
         </template>
         <template v-slot:bottom>
             <div class="row justify-center q-mt-md" style="width: 100%;">
-                <q-pagination v-model="pagination.page" direction-links color="grey-8" active-color="primary"  flat :max="pagesNumber"
+              <!-- flat -->
+                <q-pagination v-model="pagination.page" direction-links :max="pagesNumber"
+                active-color="transparent"
+                text-color="black"
+                active-text-color="blue"
                 boundary-numbers="true"
                 :max-pages="10"
                 ellipses
-                @update:model-value="paginar"/>
+                @update:model-value="paginar"
+                />
             </div>
         </template>
 
