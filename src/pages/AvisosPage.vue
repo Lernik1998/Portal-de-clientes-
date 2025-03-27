@@ -10,11 +10,12 @@
         @abrir="abrirDetalle" @filtrarEstado="filtrarEstado($event)" @paginar="paginarTabla($event) "/>
     </div>
 
-    <!-- <div id="lista-avisos">
+     <div id="lista-avisos">
          <q-list bordered separator>
             <TarjetaAviso v-for="aviso in avisos" :key="aviso.id" :aviso="aviso" @click="abrirDetalle(aviso)"/>
         </q-list>
-    </div> -->
+    </div>
+
     <q-dialog v-model="abrirParte" class="dialogo">
         <q-card>
             <q-bar class="barra-titulo">
@@ -67,11 +68,13 @@ import { useRouter, useRoute } from 'vue-router';
 import { useAvisoStore } from 'src/stores/avisos';
 import TarjetaAviso from 'src/components/TarjetaAviso.vue';
 import TablaAvisos from 'src/components/TablaAvisos.vue';
-import { useI18n } from 'vue-i18n'
+import { useI18n } from 'vue-i18n';
+import { useLanguageStore } from 'src/stores/lenguajes';
 
 
 // Variables
-const { locale } = useI18n();
+const lenguajeStore = useLanguageStore();
+const { locale,t } = useI18n();
 const $q = useQuasar();
 const router = useRouter();
 const route = useRoute();
@@ -148,7 +151,7 @@ onMounted(() => {
   cargarAvisos();
 
     // Establecer el idioma al inicio
-    locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
+    locale.value = lenguajeStore.locale;
   console.log('Idioma actual pasado al LoginPage:', locale.value);
 });
 
@@ -207,21 +210,21 @@ onUnmounted(() => {
     display: none;
 }
 
-// @media (max-width: 820px) {
-//     #lista-avisos {
-//         display: contents;
-//     }
-//     #tabla-avisos {
-//         display: none;
-//     }
-// }
+@media (max-width: 820px) {
+    #lista-avisos {
+        display: contents;
+    }
+    #tabla-avisos {
+        display: none;
+    }
+}
 
-// @media (max-width: 1280px) {
-//     #lista-avisos {
-//         display: contents;
-//     }
-//     #tabla-avisos {
-//         display: none;
-//     }
-// }
+@media (max-width: 1280px) {
+    #lista-avisos {
+        display: contents;
+    }
+    #tabla-avisos {
+        display: none;
+    }
+}
 </style>

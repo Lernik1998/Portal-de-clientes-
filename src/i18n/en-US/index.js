@@ -208,11 +208,125 @@ export default {
       nueva: "New",
       asignado: "Technician assigned",
       pendiente: "Pending assignment",
+      visitado: "Visit / not completed",
+      supervisar: "Supervise",
       proceso: "In progress",
       cerrado: "Closed"
     },
     botones: {
       detalles: "Details"
+    }
+  },
+
+  // TarjetaAviso.vue
+  tarjetaAviso: {
+    estatus: {
+      nuevo: "New",
+      asignado: "Assigned:",
+      asignadoTecnico: "Technician assigned",
+      pendiente: "Pending assignment",
+      visitado: "Visit / not completed",
+      proceso: "In progress",
+      supervisar: "Supervise",
+      cerrado: "Closed"
+    }
+  },
+
+  // FacturasPage.vue
+  facturasPage: {
+    cabecera: {
+      titulo: "Invoices",
+      descripcion: "Check all your invoices",
+    },
+    botones: {
+    cerrar: "Close",
+  }
+  },
+
+  // TablaFacturas.vue
+  tablaFacturas: {
+    no_datos: "No data to display",
+    columnas: {
+      cod: "Code",
+      fch: "Date",
+      hor: "Time",
+      base: "Base",
+      iva: "VAT",
+      tot: "Total",
+      detalles: "Details"
+    }
+  },
+
+  // AvisoSeleccionado.vue
+detalleAviso: {
+  boton_volver: "Back",
+  titulo_codigo: "Code",
+  titulo_detalles: "Notice Details",
+  titulo_piezas: "Requested Parts",
+  no_datos: "No data to display.",
+  columnas: {
+    articulo: "Item",
+    cantidad: "Quantity",
+    estado: "Status"
+  },
+  etapas: {
+    creado: {
+      titulo: "Notice Created",
+      descripcion: "The notice was registered successfully."
+    },
+    asignado: {
+      titulo: "Assigned to Technician",
+      descripcion: {
+        asignado: "A technician has been assigned.",
+        pendiente: "Pending assignment to a technician."
+      }
+    },
+    proceso: {
+      titulo: "In Progress",
+      descripcion: {
+        iniciado: "The technician is working on the notice.",
+        pendiente: "Pending work to begin."
+      }
+    },
+    finalizado: {
+      titulo: "Completed",
+      descripcion: {
+        resuelto: "The notice has been resolved and closed.",
+        pendiente: "Pending resolution."
+      }
+    }
+  },
+  informes: {
+    titulo: "Technical Reports",
+    tecnico: "Technician",
+    fecha: "Date",
+    descripcion: "Report"
+  },
+  paginacion: {
+    anterior: "Previous",
+    siguiente: "Next",
+    pagina: "Page {page} of {total}"
+  }
+},
+
+// FacturaSeleccionada.vue - English
+
+  facturas: {
+    volver: "Back",
+    tabla: {
+      no_datos: "No data to display",
+      columnas: {
+        numAlb: "Delivery Note No.",
+        fch: "Date",
+        hor: "Time",
+        ref: "Ref.",
+        articulo: "Item",
+        cantidad: "Quantity",
+        precio: "Price",
+        dto: "% Discount",
+        iva: "% VAT",
+        imp: "Amount"
+      }
     }
   }
 }

@@ -328,8 +328,10 @@ const actualizarGraficoFacturas = () => {
 };*/
 
 import { useI18n } from 'vue-i18n'
+import { useLanguageStore } from 'src/stores/lenguajes'
 
 const { locale } = useI18n();
+const lenguajeStore = useLanguageStore()
 
 
 onMounted(()=>{
@@ -337,9 +339,8 @@ onMounted(()=>{
     cargar();
 
     // Establecer el idioma al inicio
-  locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
-  console.log('Idioma actual pasado al LoginPage:', locale.value);
-  // Recibo el idioma del padre
+    locale.value = lenguajeStore.locale
+    console.log('Idioma actual pasado al DashboardPage:', locale.value);
 })
 
 </script>

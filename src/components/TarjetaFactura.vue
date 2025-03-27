@@ -9,8 +9,6 @@
             <span class="text-caption">Total: {{ factura.total }} €</span>
         </q-item-section>
     </q-item> -->
-
-
      <!-- Cambiar q-item-section por q-card-section -->
 
     <q-card class="tarjeta-factura mb-3">

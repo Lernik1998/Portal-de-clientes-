@@ -200,7 +200,7 @@ export default {
       codigo: "Código",
       servicio: "Servicio",
       creado: "Creado",
-      actualizado: "actualizado",
+      actualizado: "Actualizado",
       tecnico: "Técnico asignado",
       detalles: "Detalles"
     },
@@ -208,11 +208,125 @@ export default {
       nueva: "Nueva",
       asignado: "Técnico asignado",
       pendiente: "Pendiente asignación",
+      visitado: "Visitado / sin terminar",
+      supervisar: "Supervisar",
       proceso: "En proceso",
       cerrado: "Cerrado"
     },
     botones: {
       detalles: "Detalles"
     }
+  },
+
+  // TarjetaAviso.vue
+  tarjetaAviso: {
+    estatus: {
+      nuevo: "Nueva",
+      asignado: "Asignado:",
+      asignadoTecnico: "Técnico asignado",
+      pendiente: "Pendiente asignación",
+      visitado: "Visitado / sin terminar", // Pendiente de terminar
+      proceso: "En proceso",
+      supervisar: "Supervisar",
+      cerrado: "Cerrado"
+    }
+  },
+
+  // FacturasPage.vue
+  facturasPage: {
+    cabecera: {
+      titulo: "Facturas",
+      descripcion: "Consulte todas sus facturas",
+    },
+    botones: {
+      cerrar: "Cerrar",
+    }
+  },
+
+  // TablaFacturas.vue
+  tablaFacturas: {
+    no_datos: "No hay datos para mostrar",
+    columnas: {
+      cod: "Código",
+      fch: "Fecha",
+      hor: "Hora",
+      base: "Base",
+      iva: "IVA",
+      tot: "Total",
+      detalles: "Detalles",
+    }
+  },
+
+  // AvisoSeleccionado.vue
+detalleAviso: {
+  boton_volver: "Volver",
+  titulo_codigo: "Código",
+  titulo_detalles: "Detalles del Aviso",
+  titulo_piezas: "Piezas solicitadas",
+  no_datos: "No hay datos para mostrar.",
+  columnas: {
+    articulo: "Artículo",
+    cantidad: "Cantidad",
+    estado: "Estado"
+  },
+  etapas: {
+    creado: {
+      titulo: "Aviso Creado",
+      descripcion: "El aviso fue registrado correctamente."
+    },
+    asignado: {
+      titulo: "Asignado a Técnico",
+      descripcion: {
+        asignado: "Se ha asignado a un técnico.",
+        pendiente: "Pendiente de asignar a un técnico."
+      }
+    },
+    proceso: {
+      titulo: "En Proceso",
+      descripcion: {
+        iniciado: "El técnico está trabajando en el aviso.",
+        pendiente: "Pendiente de iniciar el trabajo."
+      }
+    },
+    finalizado: {
+      titulo: "Finalizado",
+      descripcion: {
+        resuelto: "El aviso ha sido resuelto y cerrado.",
+        pendiente: "Pendiente de resolución."
+      }
+    }
+  },
+  informes: {
+    titulo: "Informes técnicos",
+    tecnico: "Técnico",
+    fecha: "Fecha",
+    descripcion: "Informe"
+  },
+  paginacion: {
+    anterior: "Anterior",
+    siguiente: "Siguiente",
+    pagina: "Página {page} de {total}"
   }
+},
+
+// FacturaSeleccionada.vue
+
+facturas: {
+  volver: "Volver",
+  tabla :{
+    no_datos: "No hay datos para mostrar",
+    columnas: {
+      numAlb: "Nº Albarán",
+      fch: "Fecha",
+      hor: "Hora",
+      ref: "Ref.",
+      articulo: "Artículo",
+      cantidad: "Cantidad",
+      precio: "Precio",
+      dto: "%Dto",
+      iva: "%IVA",
+      imp: "Importe",
+    }
+  }
+}
 }

@@ -23,6 +23,22 @@
             </q-item>
           </q-list>
       </q-btn-dropdown>
+
+
+      <!-- Idiomas -->
+      <q-btn-dropdown unelevated class="bg-white text-blue-10 text-weight-bold" icon="language">
+          <q-list>
+            <q-item v-for="(item, index) in translatedIdiomas" :key="index" clickable v-close-popup @click="item.action">
+              <q-item-section avatar>
+                <q-icon :name="'img:' + item.icon" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ item.label }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+      </q-btn-dropdown>
+
       </q-toolbar>
     </q-header>
     <!-- drawer con las pestañas para pantalla móvil-->
@@ -109,16 +125,21 @@ import { useQuasar } from "quasar";
 import { useReCaptcha } from "vue-recaptcha-v3";
 import { useI18n } from 'vue-i18n' // Gestión de idioma
 import { provide } from 'vue'
+import { useLanguageStore } from 'src/stores/lenguajes'
 
+
+const lenguajeStore = useLanguageStore();
 const { locale, t } = useI18n()
 
 provide('locale', locale.value); // Proporciona el idioma al hijo
 const $t = t;
 
-// Envio de datos a los componentes hijos
-const toggleLanguage = () => {
+
+const toggleLanguage = (value) => {
   console.log('Idioma actual:', locale.value)
-  locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
+  locale.value = value;
+  lenguajeStore.setLocale(value);
+  console.log('Idioma actualizado:', locale.value);
 }
 
 // Componentes
@@ -139,26 +160,26 @@ const contraseñaActual = ref("");
 const nuevaContraseña = ref("");
 const confirmarContraseña = ref("");
 
-// const dropdownItems = [
-//   { label: t('dropdownItems.cambiar_contraseña'), icon: "vpn_key", action: () => abrirDialogo()},
-//   { label: t('dropdownItems.cerrar_sesion'), icon: "logout", action: () => cerrarSesion()},
-//   { label: t('dropdownItems.idioma'), icon: "language", action: () => toggleLanguage()}
-// ];
-
 
 // Traducciones reactivas
 const translatedDropdownItems = computed(() => [
   { label: t('dropdownItems.cambiar_contraseña'), icon: "vpn_key", action: () => abrirDialogo()},
   { label: t('dropdownItems.cerrar_sesion'), icon: "logout", action: () => cerrarSesion()},
-  { label: t('dropdownItems.idioma'), icon: "language", action: () => toggleLanguage()}
 ]);
 
-// const tabs = [
-//   { name: "dashboard", label: $t('tabs.dashboard'), icon: "dashboard", to: "/dashboard"},
-//   { name: "servicios", label: $t('tabs.servicios'), icon: "computer", to: "/dashboard/equipos" },
-//   { name: "avisos", label: $t('tabs.avisos'), icon: "warning", to: "/dashboard/avisos" },
-//   { name: "facturas", label: $t('tabs.facturas'), icon: "receipt", to: "/dashboard/facturas" },
-// ];
+
+import esFlag from '../assets/idiomas/es.png';
+import valFlag from '../assets/idiomas/val.png';
+import enFlag from '../assets/idiomas/en.png';
+
+
+const translatedIdiomas = computed(() => [
+  { label: "Español", icon: esFlag, value: "es-ES", action: () => toggleLanguage("es-ES")},
+  { label: "Valenciano", icon: valFlag, value: "va-ES", action: () => toggleLanguage("va-ES")},
+  { label: "Inglés", icon: enFlag, value: "en-US", action: () => toggleLanguage("en-US")}
+]);
+
+
 
 const translatedTabs = computed(() => [
   { name: "dashboard", label: t('tabs.dashboard'), icon: "dashboard", to: "/dashboard"},
@@ -229,10 +250,13 @@ const abrirDialogo = () => {
 
 onMounted(()=> {
   drawerOpen.value = false;
+  locale.value = lenguajeStore.locale;
+  console.log('Idioma actual:', locale.value);
 });
 </script>
 
 <style scoped>
+
 .global {
   background-color: #F9FAFB;
 }

@@ -1,6 +1,6 @@
 <template>
     <q-table :rows="itemsFiltrados" :columns="columnas" row-key="name" :filter="filtro" v-model:pagination="pagination"
-    no-data-label="No hay datos para mostrar." hide-pagination flat class="tabla">
+    no-data-label="Datos no disponibles" hide-pagination flat class="tabla">
         <template v-slot:top-right>
             <q-space />
             <q-input dense debounce="300" color="primary" v-model="filtro">
@@ -50,7 +50,13 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed,onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useLanguageStore } from 'src/stores/lenguajes';
+
+const { locale,t } = useI18n();
+const languageStore = useLanguageStore();
+
 const filtro = ref("");
 const props = defineProps({
     items: {
@@ -83,65 +89,70 @@ const actualizarFiltro = (estado) => {
 const columnas = [
     {
         name: "alb",
-        label: "Nº Albarán",
+        label: t('facturas.tabla.columnas.numAlb'),
         field: "num_albaran",
         align: "center"
     },
     {
         name: "fch",
-        label: "Fecha",
+        label: t('facturas.tabla.columnas.fch'),
         field: "fecha",
         align: "center"
     },
     {
         name: "hor",
-        label: "Hora",
+        label: t('facturas.tabla.columnas.hor'),
         field: "hora",
         align: "center"
     },
     {
         name: "ref",
-        label: "Ref.",
+        label: t('facturas.tabla.columnas.ref'),
         field: "ref_articulo",
         align: "center"
     },
     {
         name: "art",
-        label: "Artículo",
+        label: t('facturas.tabla.columnas.articulo'),
         field: "articulo",
         align: "center"
     },
     {
         name: "can",
-        label: "Cantidad",
+        label: t('facturas.tabla.columnas.cantidad'),
         field: "cantidad",
         align: "center"
     },
     {
         name: "pre",
-        label: "Precio",
+        label: t('facturas.tabla.columnas.precio'),
         field: "precio",
         align: "center"
     },
     {
         name: "dto",
-        label: "%Dto",
+        label: t('facturas.tabla.columnas.dto'),
         field: "descuento",
         align: "center"
     },
     {
         name: "iva",
-        label: "%IVA",
+        label: t('facturas.tabla.columnas.iva'),
         field: "iva",
         align: "center"
     },
     {
         name: "imp",
-        label: "Importe",
+        label: t('facturas.tabla.columnas.imp'),
         field: "importe",
         align: "center"
     },
 ];
+
+onMounted(()=>{
+    locale.value = languageStore.language;
+    console.log(locale.value);
+});
 </script>
 
 <style scoped lang="scss">

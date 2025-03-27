@@ -34,7 +34,9 @@ import { api } from "src/boot/axios";
 import { useQuasar } from "quasar";
 import TarjetaEquipo from "src/components/TarjetaEquipo.vue";
 import { useI18n } from 'vue-i18n'
+import { useLanguageStore } from 'src/stores/lenguajes'
 
+const lenguajeStore = useLanguageStore();
 const { locale } = useI18n(); // Establecer el idioma al inicio
 
 const $q = useQuasar();
@@ -101,11 +103,9 @@ onMounted(() => {
   window.addEventListener("scroll", paginar);
   cargarEquipos();
       // Establecer el idioma al inicio
-      locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
-  console.log('Idioma actual pasado al LoginPage:', locale.value);
+      locale.value = lenguajeStore.locale;
+  console.log('Idioma actual pasado al EquiposPage:', locale.value);
   // Recibo el idioma del padre
-  locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
-
 });
 onUnmounted(() => {
   window.removeEventListener("scroll", paginar);

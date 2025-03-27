@@ -7,16 +7,40 @@
             <img src="../assets/fenando_moll.png" class="logo1">
             <img src="../assets/powered.png" class="logo2">
             <!-- Switcher para idiomas -->
-            <q-btn
+            <!-- <q-btn
               flat
               round
               dense
               color="black"
               icon="language"
               @click="toggleLanguage"
-            />
+            /> -->
+
+            <!-- Select para idiomas -->
+            <!-- <q-select
+              v-model="locale"
+              :options="lenguajeStore.availableLocales"
+              emit-value
+              map-options
+              options-label="name"
+              options-value="value"
+              @update:modelValue="toggleLanguage"
+            /> -->
           </div>
         </q-toolbar-title>
+        <!-- Idiomas -->
+        <q-btn-dropdown unelevated class="bg-white text-blue-10 text-weight-bold" icon="language">
+          <q-list>
+            <q-item v-for="(item, index) in translatedIdiomas" :key="index" clickable v-close-popup @click="item.action">
+              <q-item-section avatar>
+                <q-icon :name="'img:' + item.icon" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ item.label }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+      </q-btn-dropdown>
       </q-toolbar>
     </q-header>
       <q-page-container class="global">
@@ -41,17 +65,30 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n'
-import { provide } from 'vue'
+import { computed } from 'vue'
+import { useLanguageStore } from 'src/stores/lenguajes'
 
+const lenguajeStore = useLanguageStore()
 const { locale } = useI18n()
 
-provide('locale', locale.value); // Proporciona el idioma al hijo
+import esFlag from '../assets/idiomas/es.png';
+import valFlag from '../assets/idiomas/val.png';
+import enFlag from '../assets/idiomas/en.png';
 
-// Envio de datos a los componentes hijos
-const toggleLanguage = () => {
+
+const translatedIdiomas = computed(() => [
+  { label: "Español", icon: esFlag, value: "es-ES", action: () => toggleLanguage("es-ES")},
+  { label: "Valenciano", icon: valFlag, value: "va-ES", action: () => toggleLanguage("va-ES")},
+  { label: "Inglés", icon: enFlag, value: "en-US", action: () => toggleLanguage("en-US")}
+]);
+
+const toggleLanguage = (value) => {
   console.log('Idioma actual:', locale.value)
-  locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
+  locale.value = value;
+  lenguajeStore.setLocale(value);
+  console.log('Idioma actualizado:', locale.value);
 }
+
 </script>
 
 <style scoped lang="scss">

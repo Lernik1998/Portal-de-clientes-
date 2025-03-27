@@ -17,6 +17,11 @@ import { api } from 'src/boot/axios';
 import { useQuasar } from "quasar";
 import { useRouter, useRoute } from 'vue-router';
 import TablaDetalleFactura from 'src/components/TablaDetalleFactura.vue';
+// Gestion idiomas
+import { useI18n } from 'vue-i18n';
+import { useLanguageStore } from 'src/stores/lenguajes';
+const { locale } = useI18n();
+const languageStore = useLanguageStore();
 
 const $q = useQuasar();
 const router = useRouter();
@@ -46,6 +51,9 @@ const cargarDetalles = async () => {
 
 onMounted(()=>{
     cargarDetalles();
+
+    locale.value = languageStore.locale;
+    console.log(locale.value);
 });
 </script>
 <style scoped lang="scss">

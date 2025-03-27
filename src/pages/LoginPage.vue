@@ -99,7 +99,12 @@ import { useReCaptcha } from "vue-recaptcha-v3";
 import { useRouter } from 'vue-router';
 import { api } from 'src/boot/axios';
 import { useAuthStore } from 'src/stores/auth';
+import { useI18n } from 'vue-i18n' // Gestión de idiomas
+import { useLanguageStore } from 'src/stores/lenguajes'
 
+
+const lenguajeStore = useLanguageStore();
+const { locale } = useI18n();
 const $q = useQuasar();
 const router = useRouter();
 const {executeRecaptcha} = useReCaptcha();
@@ -209,22 +214,12 @@ const submitForm = (type) => {
   }
 };
 
-import { useI18n } from 'vue-i18n'
-
-const { locale } = useI18n();
-
-// const toggleLanguage = () => {
-//   console.log('Idioma actual:', locale.value)
-//   locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
-//   provide('locale', locale.value);
-// }
 
 onMounted(() => {
   // Establecer el idioma al inicio
-  locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
+  locale.value = lenguajeStore.locale;
   console.log('Idioma actual pasado al LoginPage:', locale.value);
   // Recibo el idioma del padre
-  locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
 });
 </script>
 

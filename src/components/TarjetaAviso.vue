@@ -3,19 +3,24 @@
         <q-item-section>
             <q-item-label>{{ aviso.codigo+" - "+aviso.equipo }}</q-item-label>
             <span class="text-caption">{{ aviso.creado }}</span>
-            <span class="text-caption" v-if="aviso.tecnico != ''">Asignado: {{ aviso.tecnico }}</span>
+            <span class="text-caption" v-if="aviso.tecnico != ''">{{ $t('tarjetaAviso.estatus.asignado') }} {{ aviso.tecnico }}</span>
             <span class="text-caption">{{ aviso.descripcion }}</span>
-            <span class="text-caption aviso-status" :class="claseEstatus(aviso)">{{ 
-                aviso.estado == 'Nueva' ? 
-                    aviso.asignado ? 'Técnico asignado' : 'Pendiente asignación' :
+            <span class="text-caption aviso-status" :class="claseEstatus(aviso)">{{
+                aviso.estado == $t('tarjetaAviso.estatus.nuevo') ?
+                    aviso.asignado ? $t('tarjetaAviso.estatus.asignadoTecnico') : $t('tarjetaAviso.estatus.pendiente') :
                             aviso.estado == 'Visitado / sin terminar' ? 'En proceso' :
-                                aviso.estado == 'Supervisar' ? 'Cerrado' : aviso.estado
+                                aviso.estado == 'Supervisar' ? $t('tarjetaAviso.estatus.cerrado') : aviso.estado
             }}</span>
         </q-item-section>
     </q-item>
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+// Variables
+const { locale } = useI18n();
 const props = defineProps({
   aviso: {
     type: Object,
@@ -38,6 +43,12 @@ const claseEstatus = (aviso) => {
             return 'status-proceso';
     }
 };
+
+onMounted(() => {
+    // Establecer el idioma al inicio
+    locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
+  console.log('Idioma actual pasado al LoginPage:', locale.value);
+});
 </script>
 
 <style scoped lang="scss">
@@ -57,7 +68,7 @@ $estados: (
 }
 
 .aviso-status {
-    border-radius: 8px; 
+    border-radius: 8px;
     padding: 0px 5px;
     color: #000;
 }

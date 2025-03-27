@@ -1,6 +1,6 @@
 <template>
     <q-table dense :rows="itemsFiltrados" :columns="columnas" row-key="name" :filter="filtro" v-model:pagination="pagination"
-    no-data-label="No hay datos para mostrar." hide-pagination flat class="tabla">
+    no-data-label="No hay datos disponibles" hide-pagination flat class="tabla">
 
         <template v-slot:top-right>
             <q-space />
@@ -8,6 +8,7 @@
             <template v-slot:append>
                 <q-icon name="search" />
             </template>
+            <template #before></template>
             </q-input>
         </template>
 
@@ -42,7 +43,7 @@
 
         <template v-slot:body-cell-ver="props">
             <q-td style="max-width: 50px;">
-                <button class="boton-tabla azul" id="btn1" @click="abrirItem(props.row)">Detalles</button>
+                <button class="boton-tabla azul" id="btn1" @click="abrirItem(props.row)">{{ t('tablaFacturas.columnas.detalles') }}</button>
             </q-td>
         </template>
         <template v-slot:body-cell-pdf="props">
@@ -55,6 +56,10 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import { useI18n } from "vue-i18n";
+
+// Variables
+const { locale, t } = useI18n();
 const filtro = ref("");
 const props = defineProps({
     items: {
@@ -90,40 +95,40 @@ const abrirPdf = (item) => {
 const actualizarFiltro = (estado) => {
     estadoFiltro.value = estado;
 };
-const columnas = [
+const columnas = computed(() => [
     {
         name: "cod",
-        label: "Código",
+        label: t('tablaFacturas.columnas.cod'),
         field: "numero",
         align: "center"
     },
     {
         name: "fch",
-        label: "Fecha",
+        label: t('tablaFacturas.columnas.fch'),
         field: "fecha",
         align: "center"
     },
     {
         name: "hor",
-        label: "Hora",
+        label: t('tablaFacturas.columnas.hor'),
         field: "hora",
         align: "center"
     },
     {
         name: "base",
-        label: "Base",
+        label: t('tablaFacturas.columnas.base'),
         field: "base",
         align: "center"
     },
     {
         name: "iva",
-        label: "IVA",
+        label: t('tablaFacturas.columnas.iva'),
         field: "iva",
         align: "center"
     },
     {
         name: "tot",
-        label: "Total",
+        label: t('tablaFacturas.columnas.tot'),
         field: "total",
         align: "center"
     },
@@ -135,10 +140,13 @@ const columnas = [
         name: "pdf",
         align: "center"
     }
-];
+]);
 
 onMounted(() => {
   console.log("Facturas obt componente padre:",props);
+   // Establecer el idioma al inicio
+   locale.value = locale.value === "es-ES" ? "en-US" : "es-ES";
+  console.log("Idioma actual pasado al LoginPage:", locale.value);
 });
 </script>
 

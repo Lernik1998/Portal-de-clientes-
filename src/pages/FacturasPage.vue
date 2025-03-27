@@ -1,8 +1,8 @@
 <template>
     <q-page class="q-pa-md">
         <div class="cabecera">
-            <span class="text-h6">Facturas</span>
-            <span class="text-subtitle2">Consulte todas sus facturas</span>
+            <span class="text-h6">{{ $t('facturasPage.cabecera.titulo') }}</span>
+            <span class="text-subtitle2">{{ $t('facturasPage.cabecera.descripcion') }}</span>
         </div>
         <div id="tabla-facturas">
             <TablaFacturas :items="facturas" @abrir="abrirDetalle" @imprimir="imprimirPdf"/>
@@ -18,7 +18,7 @@
                     <div></div>
                     <q-space />
                     <q-btn dense flat icon="close" @click="detalleFactura = null">
-                        <q-tooltip>Cerrar</q-tooltip>
+                        <q-tooltip>{{ $t('facturasPage.cerrar') }}</q-tooltip>
                     </q-btn>
                 </q-bar>
                 <TablaDetalleFactura :items="detalleFactura"/>
@@ -30,7 +30,7 @@
                     <div></div>
                     <q-space />
                     <q-btn dense flat icon="close" @click="id = 0">
-                        <q-tooltip>Cerrar</q-tooltip>
+                        <q-tooltip>{{ $t('facturasPage.cerrar') }}</q-tooltip>
                     </q-btn>
                 </q-bar>
                 <embed type="application/pdf" :src="'https://apiclientes.fernandomoll.es/facturas.php?id='+id+'&pdf=true'" width="100%" height="700">
@@ -47,7 +47,11 @@ import TarjetaFactura from 'src/components/TarjetaFactura.vue';
 import { useRoute, useRouter } from 'vue-router';
 import TablaFacturas from 'src/components/TablaFacturas.vue';
 import TablaDetalleFactura from 'src/components/TablaDetalleFactura.vue';
+import { useI18n } from 'vue-i18n'
+import { useLanguageStore } from 'src/stores/lenguajes';
 
+const lenguajeStore = useLanguageStore();
+const { locale } = useI18n();
 const router = useRouter();
 const route = useRoute();
 const $q = useQuasar();
@@ -134,6 +138,9 @@ onMounted(() => {
     window.addEventListener('scroll', paginar);
   }
   cargarFacturas();
+
+  locale.value = lenguajeStore.locale;
+  console.log('Idioma actual pasado al FacturasPage:', locale.value);
 });
 
 onUnmounted(() => {
@@ -141,6 +148,7 @@ onUnmounted(() => {
     window.removeEventListener('scroll', paginar);
   }
 });
+
 </script>
 
 <style scoped lang="scss">

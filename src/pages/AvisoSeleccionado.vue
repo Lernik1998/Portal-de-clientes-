@@ -1,13 +1,13 @@
 <template>
     <q-page class="pagina-detalle">
         <div class="q-pa-lg">
-            <q-btn class="btn-volver" no-caps icon="arrow_back" @click="router.back()" label="Volver" flat/>
+            <q-btn class="btn-volver" no-caps icon="arrow_back" @click="router.back()" :label="$t('detalleAviso.boton_volver')" flat/>
             <div class="row">
                 <div class="col-12 col-md-4 q-pa-md">
                     <div class="text-h6">{{ parteSeleccionado.codigo }}</div>
                     <q-separator/>
                     <q-timeline align="left" dense>
-                        <q-timeline-entry 
+                        <q-timeline-entry
                         v-for="(etapa, index) in etapas"
                         :key="index"
                         :color="etapa.completado ? 'green' : 'grey'"
@@ -28,9 +28,9 @@
                     </q-timeline>
                 </div>
                 <div class="col-12 col-md-8 q-pa-md">
-                    <div class="text-h6">Detalles del Aviso</div>
+                    <div class="text-h6">{{ $t('detalleAviso.titulo_detalles') }}</div>
                     <div class="text-subtitle1">{{ parteSeleccionado.descripcion }}</div>
-                    <div class="text-overline text-center">Piezas solicitadas</div>
+                    <div class="text-overline text-center">{{ $t('detalleAviso.titulo_piezas') }}</div>
                     <q-table
                         :rows="parteSeleccionado.lineas"
                         :columns="columns"
@@ -58,7 +58,7 @@
                         <q-td>{{ row.estado }}</q-td>
                         </template>
                     </q-table>
-                  
+
                 </div>
             </div>
         </div>
@@ -66,10 +66,16 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount,computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 import { useAvisoStore } from 'src/stores/avisos';
+
+// Gestión de idioma
+import { useI18n } from 'vue-i18n';
+import { useLanguageStore } from 'src/stores/lenguajes';
+const { locale,t } = useI18n();
+const languageStore = useLanguageStore();
 
 const route = useRoute();
 const router = useRouter();
@@ -81,11 +87,18 @@ const parteSeleccionado = ref({
     lineas: []
 });
 
-const columns = ref([
-    { name: "articulo", label: "Artículo", align: "left", field: "articulo" },
-    { name: "cantidad", label: "Cantidad", align: "left", field: "cantidad" },
-    { name: "estado", label: "Estado", align: "left", field: "estado" }
+const columns = computed(() => [
+    { name: "articulo", label: t('detalleAviso.columnas.articulo'), align: "left", field: "articulo" },
+    { name: "cantidad", label: t('detalleAviso.columnas.cantidad'), align: "left", field: "cantidad" },
+    { name: "estado", label: t('detalleAviso.columnas.estado'), align: "left", field: "estado" }
 ]);
+
+
+// const columns = computed(() => [
+//     { name: "articulo", label: 'A', align: "left", field: "articulo" },
+//     { name: "cantidad", label: 'B', align: "left", field: "cantidad" },
+//     { name: "estado", label: 'C', align: "left", field: "estado" }
+// ]);
 
 const cargarDetalle = () => {
     //const id = route.params.id;
@@ -97,26 +110,26 @@ const cargarDetalle = () => {
     etapas.value = [];
     etapas.value.push({
         id: "C",
-        titulo: "Aviso Creado",
+        titulo: t('detalleAviso.etapas.creado.titulo'),
         fecha: `${aviso.creado}`,
-        descripcion: "El aviso fue registrado correctamente.",
+        descripcion: t('detalleAviso.etapas.creado.descripcion'),
         completado: true
     });
 
     if (aviso.asignado) {
         etapas.value.push({
             id: "A",
-            titulo: "Asignado a Técnico",
+            titulo: t('detalleAviso.etapas.asignado.titulo'),
             fecha: `${aviso.asignado_el}`,
-            descripcion: "Se ha asignado a un técnico.",
+            descripcion: t('detalleAviso.etapas.asignado.descripcion.asignado'),
             completado: true
         });
     } else {
         etapas.value.push({
             id: "A",
-            titulo: "Asignado a Técnico",
+            titulo: t('detalleAviso.etapas.asignado.titulo'),
             fecha: "-",
-            descripcion: "Pendiente de asignar a un técnico.",
+            descripcion: t('detalleAviso.etapas.asignado.descripcion.pendiente'),
             completado: false
         });
     }
@@ -124,18 +137,18 @@ const cargarDetalle = () => {
     if (aviso.estado !== 'Nueva') {
         etapas.value.push({
             id: "P",
-            titulo: "En Proceso",
+            titulo: t('detalleAviso.etapas.proceso.titulo'),
             fecha: `${aviso.inicio_informes}`,
-            descripcion: "El técnico está trabajando en el aviso.",
+            descripcion: t('detalleAviso.etapas.proceso.descripcion.iniciado'),
             informes: aviso.informes,
             completado: true
         });
     } else {
         etapas.value.push({
             id: "P",
-            titulo: "En Proceso",
+            titulo: t('detalleAviso.etapas.proceso.titulo'),
             fecha: "-",
-            descripcion: "Pendiente de iniciar el trabajo.",
+            descripcion: t('detalleAviso.etapas.proceso.descripcion.pendiente'),
             completado: false
         });
     }
@@ -143,46 +156,50 @@ const cargarDetalle = () => {
     if (aviso.estado === 'Terminado' || aviso.estado === 'Supervisar') {
         etapas.value.push({
             id: "T",
-            titulo: "Finalizado",
+            titulo: t('detalleAviso.etapas.finalizado.titulo'),
             fecha: `${aviso.fin_informes}`,
-            descripcion: "El aviso ha sido resuelto y cerrado.",
+            descripcion: t('detalleAviso.etapas.finalizado.descripcion.resuelto'),
             completado: true
         });
     } else {
         etapas.value.push({
             id: "T",
-            titulo: "Finalizado",
+            titulo: t('detalleAviso.etapas.finalizado.titulo'),
             fecha: "-",
-            descripcion: "Pendiente de resolución.",
+            descripcion: t('detalleAviso.etapas.finalizado.descripcion.pendiente'),
             completado: false
         });
     }
 };
 
-onMounted(()=> cargarDetalle());
+onMounted(()=> {
+    cargarDetalle();
+    // Montado del idioma seleccionado
+    locale.value = languageStore.locale;
+});
 onBeforeUnmount(()=>$q.sessionStorage.removeItem("aviso"));
 </script>
 
 <style scoped lang="scss">
 .expansor {
   background-color: #f5f5f5;
-  padding: 10px; 
-  border-radius: 8px; 
+  padding: 10px;
+  border-radius: 8px;
 }
 .elemento-informe {
   margin-left: 20px;
 }
 .informe-titulo {
-  font-weight: bold; 
+  font-weight: bold;
   color: #333;
 }
 
 .informe-texto {
-  color: #666; 
+  color: #666;
 }
 
 .btn-volver {
-    border-radius: 8px; 
+    border-radius: 8px;
     border:none;
     transition: background-color 0.3s ease;
     :hover {

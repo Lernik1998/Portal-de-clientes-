@@ -121,9 +121,14 @@ import { useQuasar } from "quasar";
 import FormContadores from "src/components/FormContadores.vue";
 import FormSoporte from "src/components/FormSoporte.vue";
 import logo from "src/assets/SBS-logo-azul.png";
-import { useI18n } from 'vue-i18n'
 
-const { locale } = useI18n(); // Gestiona el idioma
+
+// Gestiona el idioma
+import { useLanguageStore } from 'src/stores/lenguajes';
+import { useI18n } from 'vue-i18n'
+const lenguajeStore = useLanguageStore()
+const { locale } = useI18n();
+
 const route = useRoute();
 const router = useRouter();
 const $q = useQuasar();
@@ -238,7 +243,7 @@ const avisosEquipo = () => {
 onMounted(() => {
   cargarEquipo();
     // Establecer el idioma al inicio
-  locale.value = locale.value === 'es-ES' ? 'en-US' : 'es-ES';
+  locale.value = lenguajeStore.locale;
   console.log('Idioma actual pasado al LoginPage:', locale.value);
   // Recibo el idioma del padre
 });
